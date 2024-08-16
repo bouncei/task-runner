@@ -6,7 +6,6 @@ import {
   useColorScheme,
 } from "react-native";
 import tw from "twrnc";
-import debounce from "lodash.debounce";
 
 import { View, Text } from "@/components/Themed";
 import FrameWithHeader from "@/components/wrappers/frame-with-header";
@@ -82,38 +81,30 @@ const SearchScreen = () => {
   const [loading, setLoading] = useState(false);
   const colorScheme = useColorScheme() ?? "light";
 
-  const debouncedSearch = useCallback(
-    debounce((query: string) => {
-      // Call your search API or perform search logic here
-      // For demo purposes, let's assume we have a search function
-      const searchFunction = async (query: string) => {
-        try {
-          const response = await fetch(`https://example.com/search?q=${query}`);
-          const data = await response.json();
-          return data.results;
-        } catch (error) {
-          console.error(error);
-          return [];
-        }
-      };
+  let timeoutId: any;
 
-      setLoading(true);
-      searchFunction(query)
-        .then((results) => {
-          setSearchResults(results);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error(error);
-          setLoading(false);
-        });
-    }, 500),
-    []
-  );
+  const locationSearch = useCallback((query: string) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(async () => {
+      try {
+        // TODO: USE APPROPRAITE ENDPOINT
+        const response = await fetch(`https://example.com/search?q=${query}`);
+        const data = await response.json();
+        setSearchResults(data.results);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    }, 1000);
+  }, []);
 
   const handleSearchQueryChange = (query: string) => {
     setSearchQuery(query);
-    debouncedSearch(query);
+    locationSearch(query);
   };
 
   const selectLocation = (location: any) => {

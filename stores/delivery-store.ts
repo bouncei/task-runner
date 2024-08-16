@@ -42,12 +42,13 @@ export const useDeliveryStore = create(
       },
       setNewDelivery: (params) => {
         // SAVE NEW DELIVERY DETAILS
+        const { locations, itemDetails, rider } = params;
         set({
           newDelivery: {
-            pickup: params.locations ? params.locations.pickup : null,
-            delivery: params.locations ? params.locations.delivery : null,
-            itemData: params.itemDetails,
-            rider: params.rider,
+            pickup: locations ? locations.pickup : null,
+            delivery: locations ? locations.delivery : null,
+            itemData: itemDetails,
+            rider: rider,
           },
         });
       },
