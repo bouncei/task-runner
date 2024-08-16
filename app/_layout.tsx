@@ -84,7 +84,14 @@ function RootLayoutNav() {
 
         {/* PRIVATE SCREENS */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="pickup" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="instant-delivery"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="schedule-delivery"
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="search" options={{ headerShown: false }} />
         <Stack.Screen name="select-item" options={{ headerShown: false }} />
 

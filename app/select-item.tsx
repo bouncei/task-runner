@@ -113,10 +113,9 @@ const ItemDetailsScreen = () => {
       router.back();
     } else {
       router.push({
-        pathname: "/pickup",
+        pathname: "/instant-delivery",
         params: {
           step: "confirmDetails", //next step
-          // ...itemData,
         },
       });
     }

@@ -12,3 +12,5 @@ const RideDetails = ({}: RideDetailsProps) => {
     </View>
   );
 };
+
+export default RideDetails;

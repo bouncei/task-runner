@@ -77,7 +77,7 @@ export default function TabOneScreen() {
             >
               <TouchableOpacity
                 style={tw`flex gap-y-2 w-full`}
-                onPress={() => router.push("/pickup")}
+                onPress={() => router.push("/instant-delivery")}
               >
                 <MaterialCommunityIcons
                   name="lightning-bolt-outline"
@@ -99,7 +99,10 @@ export default function TabOneScreen() {
               colors={["#1E1E1E", "#006B72"]}
               style={tw`p-4 w-[48%]  rounded-xl text-white`}
             >
-              <TouchableOpacity style={tw`flex gap-2`}>
+              <TouchableOpacity
+                style={tw`flex gap-2`}
+                onPress={() => router.push("/schedule-delivery")}
+              >
                 <FontAwesome name="clock-o" size={35} color="white" />
                 <Text style={tw`text-lg font-medium text-white`}>
                   Schedule Delivery
@@ -114,13 +117,17 @@ export default function TabOneScreen() {
 
           {/* HISTORY */}
           <View>
-            <View style={tw`w-full flex items-center flex-row justify-between`}>
-              <Text style={tw`text-lg font-medium`}>History</Text>
+            {deliveries.length !== 0 && (
+              <View
+                style={tw`w-full flex items-center flex-row justify-between`}
+              >
+                <Text style={tw`text-lg font-medium`}>History</Text>
 
-              <TouchableOpacity onPress={() => {}}>
-                <Text style={tw`text-[#006970]`}>View all</Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity onPress={() => {}}>
+                  <Text style={tw`text-[#006970]`}>View all</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
             {/* DISPLAY HISTORY */}
             {loading ? (
@@ -144,7 +151,7 @@ export default function TabOneScreen() {
                 />
 
                 <Button
-                  onPress={() => router.push("/pickup")}
+                  onPress={() => router.push("/instant-delivery")}
                   style={tw`rounded-xl`}
                 >
                   <Text style={tw`text-white `}>Instant Delivery</Text>
