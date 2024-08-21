@@ -4,6 +4,15 @@ import React from "react";
 import { router } from "expo-router";
 
 export default function StartScreen() {
+  const handleRoute = (role: string) => {
+    router.push({
+      pathname: "/(auth)/onboarding",
+      params: {
+        role,
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -12,7 +21,7 @@ export default function StartScreen() {
         </Text>
 
         <TouchableOpacity
-          onPress={() => router.push("/(auth)/onboarding")}
+          onPress={() => handleRoute("sender")}
           style={[styles.button, styles.senderButton]}
         >
           <Text lightColor="white" style={{ fontSize: 18 }}>
@@ -21,7 +30,7 @@ export default function StartScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push("/(auth)/onboarding")}
+          onPress={() => handleRoute("rider")}
           style={[styles.button, styles.riderButton]}
         >
           <Text style={{ fontSize: 18 }}>Rider</Text>

@@ -74,7 +74,7 @@ const resentSearches = [
 ];
 
 const SearchScreen = () => {
-  const { from } = useRoute().params as any;
+  const { from, type } = useRoute().params as any;
   const { setNewDelivery, newDelivery } = useDeliveryStore();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -122,6 +122,7 @@ const SearchScreen = () => {
           },
           itemDetails: undefined,
           rider: undefined,
+          type,
         });
       } else {
         setNewDelivery({
@@ -131,6 +132,7 @@ const SearchScreen = () => {
           },
           itemDetails: undefined,
           rider: undefined,
+          type,
         });
       }
       router.back();

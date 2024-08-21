@@ -77,7 +77,12 @@ const InstantDeliveryScreen: React.FC = () => {
         style={tw`absolute top-14 left-5 bg-white p-2 rounded-full shadow-xl`}
         onPress={() => {
           // RESET newDelevery global state
-          setNewDelivery({ itemDetails: null, locations: null, rider: null });
+          setNewDelivery({
+            itemDetails: null,
+            locations: null,
+            rider: null,
+            type: null,
+          });
           router.replace("/(tabs)");
         }}
       >

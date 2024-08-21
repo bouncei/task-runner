@@ -1,12 +1,14 @@
+import { useState } from "react";
 import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
   useColorScheme,
 } from "react-native";
-import { Text, View } from "@/components/Themed";
-import React, { useState } from "react";
 import { router } from "expo-router";
+import tw from "twrnc";
+
+import { Text, View } from "@/components/Themed";
 
 const LoginScreeen = () => {
   const [email, setEmail] = useState("");
@@ -14,11 +16,40 @@ const LoginScreeen = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const colorScheme = useColorScheme();
 
+  const [errors, setErrors] = useState({
+    email: "",
+  });
+
+  const validateInput = (field: keyof typeof errors, value: string) => {
+    switch (field) {
+      case "email":
+        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+          setErrors((prev) => ({ ...prev, email: "Invalid email address" }));
+        } else {
+          setErrors((prev) => ({ ...prev, email: "" }));
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+
   const handleLogin = () => {
-    router.push("/(tabs)");
+    // Validate all input fields
+
+    validateInput("email", email);
+
+    if (errors.email === "") {
+      // PROCEED TO LOGIN
+
+      router.push("/(tabs)");
+    } else {
+      console.log("Please fix the errors");
+    }
   };
 
   return (
@@ -34,13 +65,19 @@ const LoginScreeen = () => {
             color: "#fff",
           },
         ]}
-        placeholder="youremailaddress@address.com"
+        placeholder="johndoe@email.com"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text) => {
+          setEmail(text);
+          validateInput("email", text);
+        }}
         keyboardType="email-address"
         autoCapitalize="none"
         placeholderTextColor="#A8A8A8"
       />
+      {errors.email && (
+        <Text style={tw`text-sm text-red-500 -mt-3 mb-2`}>{errors.email}</Text>
+      )}
 
       <View
         style={[
@@ -59,7 +96,9 @@ const LoginScreeen = () => {
           ]}
           placeholder="Password"
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(text) => {
+            setPassword(text);
+          }}
           secureTextEntry={!isPasswordVisible}
           placeholderTextColor="#A8A8A8"
         />

@@ -2,11 +2,15 @@ import { ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React from "react";
 import { router } from "expo-router";
+import { useRoute } from "@react-navigation/native";
 
 export default function OnBoardingScreen() {
+  const { role } = useRoute().params as any;
+
   const goToLogin = () => {
     router.push("/(auth)/login");
   };
+
   return (
     <ImageBackground
       source={require("@/assets/images/start.png")} // Replace with your image URL or require statement for a local image

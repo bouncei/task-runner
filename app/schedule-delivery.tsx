@@ -18,10 +18,10 @@ const ScheduleDeliveryScreen = () => {
   const [pickupLocation, setPickUpLocation] = useState<any | null>(null);
   const [deliveryLocation, setDeliveryLocation] = useState<any | null>(null);
 
-  const [step, setStep] = useState<"location" | "confirmDetails">("location"); // TODO: location, confirmDetails
+  const [step, setStep] = useState<"location" | "confirmDetails">("location"); // TODO: location, time/date, confirmDetails
   const { width, height } = Dimensions.get("window");
   const snapPoints = useMemo(() => {
-    if (step === "confirmDetails") return ["25%", "55%"];
+    if (step === "confirmDetails" || step === "location") return ["25%", "55%"];
 
     return ["15%", "40%"];
   }, [step]);
@@ -69,7 +69,12 @@ const ScheduleDeliveryScreen = () => {
         style={tw`absolute top-14 left-5 bg-white p-2 rounded-full shadow-xl`}
         onPress={() => {
           // RESET newDelevery global state
-          setNewDelivery({ itemDetails: null, locations: null, rider: null });
+          setNewDelivery({
+            itemDetails: null,
+            locations: null,
+            rider: null,
+            type: null,
+          });
           router.replace("/(tabs)");
         }}
       >

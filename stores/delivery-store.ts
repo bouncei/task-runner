@@ -9,16 +9,22 @@ interface DeliveryStore {
     pickup: any;
     delivery: any;
     itemData: any;
-    rider: any;
+    date: any; //* FOR SCHEDULED DELIVERY
+    time: any; //* FOR SCHEDULED DELIVERY
+    rider: any; //* THIS WILL BE NULL FOR SCHEDULED DELIVERY
+    type: "instant" | "schedule" | null;
   } | null;
   loading: boolean;
   success: boolean;
   error: string | null;
   getDeliveries: () => void;
   setNewDelivery: (params: {
-    itemDetails: any;
-    locations: any;
-    rider: any;
+    itemDetails?: any;
+    locations?: any;
+    time?: any;
+    date?: any;
+    rider?: any;
+    type?: "instant" | "schedule" | null;
   }) => void;
   getDeliveryById: (id: number) => void;
   updateDelivery: (delivery: Delivery) => void;
@@ -42,15 +48,34 @@ export const useDeliveryStore = create(
       },
       setNewDelivery: (params) => {
         // SAVE NEW DELIVERY DETAILS
-        const { locations, itemDetails, rider } = params;
-        set({
-          newDelivery: {
-            pickup: locations ? locations.pickup : null,
-            delivery: locations ? locations.delivery : null,
-            itemData: itemDetails,
-            rider: rider,
-          },
-        });
+        const { locations, itemDetails, rider, type, date, time } = params;
+        const { newDelivery } = get();
+
+        if (type === "instant" || type === "schedule") {
+          set({
+            newDelivery: {
+              pickup: locations ? locations.pickup : newDelivery?.pickup,
+              delivery: locations ? locations.delivery : newDelivery?.delivery,
+              time: time ? time : newDelivery?.time,
+              date: date ? date : newDelivery?.date,
+              itemData: itemDetails ? itemDetails : newDelivery?.itemData,
+              rider: rider ? rider : newDelivery?.rider,
+              type: type ? type : newDelivery?.type || null,
+            },
+          });
+        } else {
+          set({
+            newDelivery: {
+              pickup: null,
+              delivery: null,
+              time: null,
+              date: null,
+              itemData: null,
+              rider: null,
+              type: null,
+            },
+          });
+        }
       },
       getDeliveryById: async (id: number) => {
         // implement getDeliveryById logic here

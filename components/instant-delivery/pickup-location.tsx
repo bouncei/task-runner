@@ -25,7 +25,7 @@ const PickLocation = ({
         onPress={() => {
           router.push({
             pathname: "/search",
-            params: { from: "pickup" },
+            params: { from: "pickup", type: "instant" },
           });
         }}
         style={tw`bg-gray-100 p-3 rounded-lg mt-2`}
@@ -43,7 +43,7 @@ const PickLocation = ({
         onPress={() => {
           router.push({
             pathname: "/search",
-            params: { from: "delivery" },
+            params: { from: "delivery", type: "instant" },
           });
         }}
         style={tw`bg-gray-100 p-3 rounded-lg mt-2`}
