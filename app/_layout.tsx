@@ -12,6 +12,7 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import Toast from "react-native-toast-message";
+import { View } from "@/components/Themed";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -55,7 +56,9 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Toast />
+      <View style={{ zIndex: 1000 }}>
+        <Toast />
+      </View>
       <Stack>
         <Stack.Screen name="welcome/splash" options={{ headerShown: false }} />
 

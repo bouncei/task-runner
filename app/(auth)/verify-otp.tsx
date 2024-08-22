@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { TextInput, TouchableOpacity, StyleSheet } from "react-native";
 
 import { View, Text } from "@/components/Themed";
+import { useAuthStore } from "@/stores/auth-store";
+import { router } from "expo-router";
 
 const VerificationScreen = () => {
+  const { setPassword, success } = useAuthStore();
   const [code, setCode] = useState(["", "", "", ""]);
 
   const handleCodeChange = (index: number, value: string) => {
@@ -16,11 +19,17 @@ const VerificationScreen = () => {
 
   const handleVerify = () => {
     // Handle the verify button press
-    console.log("Verification code:", code.join(""));
+    const verificationCode = code.join("");
+    console.log("Verification code:", verificationCode);
+    setPassword(verificationCode);
+
+    success
+      ? router.push("/(auth)/login")
+      : console.log("Something went wrong");
   };
 
   const handleResendCode = () => {
-    // Handle resending the verification code
+    // TODO: Handle resending the verification code
     console.log("Resend code");
   };
 
