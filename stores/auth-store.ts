@@ -166,6 +166,8 @@ export const useAuthStore = create(
               type: "success",
               text1: "Forget password email sent!",
             });
+
+            return true;
           }
         } catch (error: any) {
           set({ error: error.response.data.message, success: false });
@@ -207,11 +209,12 @@ export const useAuthStore = create(
               success: true,
             });
 
-            // TOAST MESSAGE
             Toast.show({
               type: "success",
               text1: "OTP verified",
             });
+
+            return true;
           }
         } catch (error: any) {
           set({ error: error.response.data.message, success: false });
@@ -272,6 +275,7 @@ export const useAuthStore = create(
           set({ loading: false });
         }
       },
+
       logout: () => {},
     }),
 
@@ -290,7 +294,6 @@ export const useAuthStore = create(
           forgotPassword: () => {},
           verifyOTP: () => {},
           setPassword: () => {},
-
           logout: () => {},
         };
       },

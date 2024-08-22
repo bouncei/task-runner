@@ -75,7 +75,7 @@ export const useDeliveryStore = create(
             set({ deliveries: response.data.deliveries, success: true });
         } catch (error: any) {
           set({ error: error.response.data.message, success: false });
-          console.log("Error verifying otp:", error.response.data.message);
+          console.log("Error getting deliveries:", error.response.data.message);
           Toast.show({
             type: "error",
             text1: "Something went wrong",

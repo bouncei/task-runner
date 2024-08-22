@@ -17,14 +17,18 @@ import { useDeliveryStore } from "@/stores/delivery-store";
 import { useEffect } from "react";
 import DeliveryCard from "@/components/cards/delivery-card";
 import { router } from "expo-router";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function TabOneScreen() {
   const theme = useColorScheme() ?? "light";
+  const { security } = useAuthStore();
   const { getDeliveries, deliveries, loading } = useDeliveryStore();
 
   useEffect(() => {
-    getDeliveries();
-  }, []);
+    if (!security) return;
+
+    getDeliveries(security.email, security.token);
+  }, [security]);
 
   return (
     <View style={styles.container}>
