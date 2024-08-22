@@ -1,5 +1,7 @@
+import { api } from "@/api/config";
 import { Delivery } from "@/lib/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -17,7 +19,6 @@ interface DeliveryStore {
   loading: boolean;
   success: boolean;
   error: string | null;
-  getDeliveries: () => void;
   setNewDelivery: (params: {
     itemDetails?: any;
     locations?: any;
@@ -25,6 +26,19 @@ interface DeliveryStore {
     date?: any;
     rider?: any;
     type?: "instant" | "schedule" | null;
+  }) => void;
+  getDeliveries: (useremail: string, usertoken: string) => void;
+  addDelivery: (body: {
+    title: string;
+    delivery_address: string;
+    client_fullname: string;
+    client_email: string;
+    rider_id: string;
+    status: string;
+    current_lat: string;
+    current_long: string;
+    delivered_date: string | null;
+    comment: string | null;
   }) => void;
   getDeliveryById: (id: number) => void;
   updateDelivery: (delivery: Delivery) => void;
@@ -43,8 +57,38 @@ export const useDeliveryStore = create(
   persist<DeliveryStore>(
     (set, get) => ({
       ...initialState,
-      getDeliveries: async () => {
-        // implement getDeliveries logic here
+
+      getDeliveries: async (useremail, usertoken) => {
+        set({ loading: true });
+        try {
+          const response = await api.get("/get-delivery", {
+            headers: {
+              "Content-Type": "application/json",
+              useremail,
+              usertoken,
+            },
+          });
+
+          console.log("get deliveries response:", response.data);
+
+          response.data &&
+            set({ deliveries: response.data.deliveries, success: true });
+        } catch (error: any) {
+          set({ error: error.response.data.message, success: false });
+          console.log("Error verifying otp:", error.response.data.message);
+          Toast.show({
+            type: "error",
+            text1: "Something went wrong",
+            text2: "Please try again",
+          });
+          return false;
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      addDelivery: async (body) => {
+        // TODO
       },
       setNewDelivery: (params) => {
         // SAVE NEW DELIVERY DETAILS
@@ -97,6 +141,7 @@ export const useDeliveryStore = create(
           deliveries,
 
           getDeliveries: () => {},
+          addDelivery: () => {},
           setNewDelivery: () => {},
           getDeliveryById: () => {},
           updateDelivery: () => {},
