@@ -70,7 +70,7 @@ export default function TabOneScreen() {
           </View>
         </View>
 
-        <View style={tw`flex flex-col gap-3 pt-5`}>
+        <View style={tw`flex flex-col gap-4 pt-5`}>
           <Text style={tw`text-base`}>What would you like to do?</Text>
 
           <View style={tw`flex flex-row gap-4 `}>
@@ -127,7 +127,9 @@ export default function TabOneScreen() {
               >
                 <Text style={tw`text-lg font-medium`}>History</Text>
 
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => router.push("/(tabs)/history")}
+                >
                   <Text style={tw`text-[#006970]`}>View all</Text>
                 </TouchableOpacity>
               </View>
@@ -162,15 +164,9 @@ export default function TabOneScreen() {
                 </Button>
               </View>
             ) : (
-              <ScrollView>
-                {/* //TODO */}
+              <ScrollView showsVerticalScrollIndicator={false}>
                 {deliveries.map((delivery, index) => (
-                  <DeliveryCard
-                    deliveryId={delivery.id}
-                    recipient={delivery.recipient}
-                    location={delivery.location}
-                    // date={delivery.updated_at}
-                  />
+                  <DeliveryCard key={index} delivery={delivery} />
                 ))}
               </ScrollView>
             )}

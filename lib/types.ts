@@ -15,15 +15,18 @@ export interface Security {
 
 export interface Delivery {
   id: string;
-  recipient: string;
-  email: string;
-  phone: string;
+  shipment_number: string;
+  title: string;
+  delivery_address: string;
+  client_fullname: string;
+  client_email: string;
+  rider_id: string;
   status: string;
-  location: string;
-  //  TODO: OTHER RELEVANT FIELDS
-
-  created_at: Date;
-  updated_at: Date;
+  current_lat: string;
+  current_long: string;
+  created_date: string;
+  delivered_date: string | null;
+  comment: string | null;
 }
 
 export interface Rider {

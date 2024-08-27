@@ -143,7 +143,7 @@ const SearchScreen = () => {
 
   return (
     <FrameWithHeader>
-      <KeyboardAvoidingView
+      <View
         style={tw`bg-[#0069701A] px-3 py-2 rounded-lg mt-2 flex flex-row gap-2 items-center `}
       >
         <EvilIcons name="location" size={28} color={Colors[colorScheme].text} />
@@ -156,7 +156,7 @@ const SearchScreen = () => {
           onChangeText={handleSearchQueryChange}
           keyboardType="web-search"
         />
-      </KeyboardAvoidingView>
+      </View>
 
       {loading ? (
         <Text style={tw`w-full text-center font-medium text-base`}>

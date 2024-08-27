@@ -69,7 +69,7 @@ const LoginScreen = () => {
       const loginUser = login(email, password);
       console.log("Login output", success);
 
-      if (success === true) {
+      if (success) {
         // Redirect to dashboard
         router.push("/(tabs)");
       } else {

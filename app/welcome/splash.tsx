@@ -28,7 +28,7 @@ const Splash = () => {
     pulse();
 
     const timer = setTimeout(() => {
-      security?.token ? router.push("/(tabs)") : router.push("/(auth)/start");
+      security ? router.push("/(tabs)") : router.push("/(auth)/start");
       // router.push("/(tabs)");
     }, 4000);
     return () => clearTimeout(timer);
