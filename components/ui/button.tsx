@@ -51,7 +51,7 @@ const Button: React.FC<ButtonProps> = ({
     <TouchableOpacity
       style={[
         tw.style(
-          `${variantStyle} ${sizeStyle} rounded-md items-center justify-center`
+          `${variantStyle} ${sizeStyle} rounded-xl items-center justify-center`
         ),
         style,
       ]}

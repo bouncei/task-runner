@@ -5,6 +5,7 @@ import { Security, User } from "@/lib/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "@/api/config";
 import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 
 interface UserStore {
   user: User | null;
@@ -119,6 +120,8 @@ export const useAuthStore = create(
               type: "success",
               text1: "Login successful!",
             });
+
+            router.push("/(tabs)");
 
             return true;
           }
@@ -276,7 +279,15 @@ export const useAuthStore = create(
         }
       },
 
-      logout: () => {},
+      logout: () => {
+        set({ user: null, security: null });
+
+        Toast.show({
+          type: "success",
+          text1: "Bye now 👋",
+          text2: "See you next time",
+        });
+      },
     }),
 
     {

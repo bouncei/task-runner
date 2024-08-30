@@ -9,13 +9,14 @@ import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { useAuthStore } from "@/stores/auth-store";
 import Toast from "react-native-toast-message";
 import { useIsFocused } from "@react-navigation/native";
+import { FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome5 size={24} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
@@ -84,7 +85,9 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="user-alt" color={color} />
+          ),
           headerShown: false,
         }}
       />

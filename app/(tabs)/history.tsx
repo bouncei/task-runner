@@ -55,7 +55,9 @@ export default function TabTwoScreen() {
 
   return (
     <FrameWithHeader>
-      <Text style={tw`text-xl`}>Delivery History</Text>
+      <Text style={tw`text-xl font-semibold tracking-wide`}>
+        Delivery History
+      </Text>
       <View
         style={tw`bg-[#0069701A] px-3 py-2 rounded-lg mt-2 flex flex-row gap-2 items-center `}
       >

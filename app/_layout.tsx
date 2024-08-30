@@ -99,6 +99,20 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="search" options={{ headerShown: false }} />
         <Stack.Screen name="select-item" options={{ headerShown: false }} />
+        <Stack.Screen name="my-riders" options={{ headerShown: false }} />
+        <Stack.Screen name="support-faq" options={{ headerShown: false }} />
+        <Stack.Screen name="address" options={{ headerShown: false }} />
+        <Stack.Screen name="settings" options={{ headerShown: false }} />
+        <Stack.Screen name="change-password" options={{ headerShown: false }} />
+        <Stack.Screen name="change-language" options={{ headerShown: false }} />
+        <Stack.Screen name="privacy-policy" options={{ headerShown: false }} />
+        <Stack.Screen name="contact-us" options={{ headerShown: false }} />
+        <Stack.Screen name="delete-account" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="help-and-support"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="invite-friends" options={{ headerShown: false }} />
 
         {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
       </Stack>

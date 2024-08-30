@@ -40,3 +40,9 @@ export interface Rider {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface Address {
+  id: string;
+  title: string;
+  address: string;
+}

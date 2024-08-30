@@ -39,15 +39,17 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({ delivery }) => {
       </View>
 
       <View style={tw`flex-row items-start gap-3 mt-3`}>
-        <Image
-          source={require("@/assets/images/icons/bike.png")}
-          style={[
-            {
-              resizeMode: "contain",
-            },
-            tw`mt-2`,
-          ]}
-        />
+        <View style={tw`bg-[#006970] bg-opacity-10 p-2 rounded-md`}>
+          <Image
+            source={require("@/assets/images/icons/bike.png")}
+            style={[
+              {
+                resizeMode: "contain",
+              },
+              tw` size-9`,
+            ]}
+          />
+        </View>
 
         <View style={tw`flex-col items-start`}>
           <View style={tw`flex-row items-center`}>

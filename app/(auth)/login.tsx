@@ -54,7 +54,7 @@ const LoginScreen = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Validate all input fields
     validateInput("email", email);
     validateInput("password", password);
@@ -66,15 +66,15 @@ const LoginScreen = () => {
 
     if (errors.email === "" && errors.password === "") {
       // PROCEED TO LOGIN
-      const loginUser = login(email, password);
+      const loginUser = await login(email, password);
       console.log("Login output", success);
 
-      if (success) {
-        // Redirect to dashboard
-        router.push("/(tabs)");
-      } else {
-        console.log("Login failed");
-      }
+      // if (success) {
+      //   // Redirect to dashboard
+      //   router.push("/(tabs)");
+      // } else {
+      //   console.log("Login failed");
+      // }
     } else {
       console.log("Please fix the errors");
     }
