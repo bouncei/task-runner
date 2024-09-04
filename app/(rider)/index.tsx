@@ -1,12 +1,12 @@
 import tw from "twrnc";
 
 import { Text, View } from "@/components/Themed";
-import { Image, ScrollView } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import FrameWithHeader from "@/components/wrappers/frame-with-header";
+import { Image, Pressable, ScrollView } from "react-native";
+import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { primary } from "@/constants/Colors";
-import { SafeAreaView } from "react-native-safe-area-context";
 import TripCard from "@/components/cards/trip-card";
+import PreviousTripCard from "@/components/cards/previous-trip-card";
+import { router } from "expo-router";
 
 const HomeScreen = () => {
   const handleNavigation = () => {
@@ -14,9 +14,9 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={tw`flex-1 h-full  gap-4 h-full w-full bg-[#EBF0FA]  `}>
+    <View style={tw`flex-1  gap-4 h-full w-full bg-[#EBF0FA]  `}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={tw`flex-1 h-full  pb-52 bg-transparent relative `}>
+        <View style={tw`flex-1 mb-20 bg-transparent relative `}>
           {/* HEADER */}
           <View
             style={tw`flex-row justify-between items-center px-4 h-[13rem] bg-[${primary}] rounded-b-[50px]`}
@@ -40,8 +40,36 @@ const HomeScreen = () => {
             </View>
           </View>
 
-          <View style={tw`absolute top-[10rem] w-full px-6 bg-transparent`}>
+          <View
+            style={tw`absolute top-[10rem] w-full h-full px-6 bg-transparent pb-20`}
+          >
             <View style={tw`gap-4 bg-transparent`}>
+              {/* ALL TRIPS FOR THE PRESENT DAY*/}
+              <Pressable
+                onPress={() => router.push("/rides")}
+                style={tw`bg-white shadow-md py-4 rounded-[20px] `}
+              >
+                <View
+                  style={tw`bg-transparent h-[6rem] items-center justify-center px-4 pb-4`}
+                >
+                  <Text style={tw`text-2xl tracking-wider`}>Today</Text>
+                </View>
+
+                <View
+                  style={tw`px-4 pt-4 border-t border-[#EBF0FA] flex-row items-center justify-between`}
+                >
+                  <View style={tw`flex-row items-center gap-1`}>
+                    <FontAwesome6 name="repeat" size={20} color="black" />
+                    <Text style={tw`text-lg tracking-wide`}>14 Rides</Text>
+                  </View>
+                  <View style={tw`flex-row items-center gap-1`}>
+                    <FontAwesome6 name="clock" size={20} color="black" />
+                    <Text style={tw`text-base tracking-wide`}>23H</Text>
+                  </View>
+                </View>
+              </Pressable>
+
+              {/* LATEST TRIPS */}
               <TripCard
                 title="Ongoing Trip"
                 user="Megan Fox"
@@ -54,8 +82,10 @@ const HomeScreen = () => {
                 rating="4.8"
                 onPress={handleNavigation}
               />
+
+              {/* PREVIUS TRIPS */}
+              <PreviousTripCard />
             </View>
-            {/* <PreviousTripCard /> */}
           </View>
         </View>
       </ScrollView>

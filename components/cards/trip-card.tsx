@@ -20,7 +20,7 @@ const TripCard: React.FC<TripCardProps> = ({
   onPress,
 }) => {
   return (
-    <View style={tw`bg-white shadow-2xl py-4 rounded-[20px] shadow `}>
+    <View style={tw` shadow-md py-4 rounded-[20px] `}>
       {/* HEARDER */}
       <View style={tw`bg-transparent px-4 pb-4`}>
         <View style={tw`flex-row items-center justify-between`}>

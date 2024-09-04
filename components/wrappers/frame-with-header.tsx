@@ -16,12 +16,18 @@ import { Button } from "@/components/ui/button";
 interface Props {
   children: React.ReactNode;
   showBack?: boolean;
+  disableScroll?: boolean;
   title?: string;
 }
 
-const FrameWithHeader: React.FC<Props> = ({ children, showBack, title }) => {
+const FrameWithHeader: React.FC<Props> = ({
+  children,
+  showBack,
+  disableScroll,
+  title,
+}) => {
   return (
-    <View style={tw`flex-1 h-full  gap-4 h-full w-full px-6`}>
+    <View style={tw`flex-1   gap-4  w-full px-6`}>
       <SafeAreaView>
         {showBack && (
           <View style={tw`flex flex-row gap-8 pb-5 items-center`}>
@@ -43,8 +49,11 @@ const FrameWithHeader: React.FC<Props> = ({ children, showBack, title }) => {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={tw`flex-1 h-full gap-3 pb-52 `}>{children}</View>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={!disableScroll}
+          >
+            <View style={tw` gap-3 pb-20 `}>{children}</View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

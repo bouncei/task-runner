@@ -9,7 +9,7 @@ export default function StartScreen() {
   const handleRoute = (role: "sender" | "rider") => {
     handleLoginRoleState(role);
     router.push({
-      pathname: "/(auth)/onboarding",
+      pathname: "/(auth)/login",
     });
   };
 

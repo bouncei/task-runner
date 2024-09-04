@@ -32,7 +32,7 @@ const Splash = () => {
         ? loggedInRole === "sender" || !loggedInRole
           ? router.replace("/(sender)")
           : router.replace("/(rider)")
-        : router.push("/(auth)/start");
+        : router.replace("/(auth)/onboarding");
       // router.push("/(sender)");
     }, 4000);
     return () => clearTimeout(timer);

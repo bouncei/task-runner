@@ -8,7 +8,7 @@ import { useAuthStore } from "@/stores/auth-store";
 export default function OnBoardingScreen() {
   const goToLogin = () => {
     router.push({
-      pathname: "/(auth)/login",
+      pathname: "/(auth)/start",
     });
   };
 
@@ -20,7 +20,7 @@ export default function OnBoardingScreen() {
       <View style={styles.overlay}>
         <Text style={styles.title}>Taskrunner</Text>
         <Text style={styles.subtitle}>
-          Items will be Delivered in few clicks
+          Items will be delivered in few clicks
         </Text>
         <Text style={styles.description}>
           On-demand delivery whenever and wherever the need arises.
