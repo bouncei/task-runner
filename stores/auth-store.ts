@@ -9,6 +9,7 @@ import { router } from "expo-router";
 
 interface UserStore {
   user: User | null;
+  loggedInRole: "rider" | "sender" | null;
   security: Security | null;
   otp: number | string | null;
   forgotEmail: string | null;
@@ -23,6 +24,7 @@ interface UserStore {
     userRole: string
   ) => void;
   login: (email: string, password: string) => void;
+  handleLoginRoleState: (role: "sender" | "rider") => void;
   forgotPassword: (email: string) => void;
   verifyOTP: (otp: string | number) => void;
   setPassword: (password: string) => void;
@@ -32,6 +34,7 @@ interface UserStore {
 
 const initialState = {
   user: null,
+  loggedInRole: null,
   security: null,
   otp: null,
   forgotEmail: null,
@@ -74,10 +77,7 @@ export const useAuthStore = create(
             });
             return true;
           }
-
-          // console.log("Here", fname, email);
         } catch (error: any) {
-          // TODO: HANDLE ERROR PROPERLY
           set({ error: error.message, success: false });
           console.log("Error while registering a user:", error);
           Toast.show({
@@ -93,6 +93,7 @@ export const useAuthStore = create(
 
       login: async (email, password) => {
         set({ loading: true });
+        const { loggedInRole } = get();
         try {
           const response = await api.post(
             "/login",
@@ -121,7 +122,9 @@ export const useAuthStore = create(
               text1: "Login successful!",
             });
 
-            router.push("/(tabs)");
+            loggedInRole === "rider"
+              ? router.replace("/(rider)")
+              : router.replace("/(sender)");
 
             return true;
           }
@@ -140,6 +143,10 @@ export const useAuthStore = create(
         } finally {
           set({ loading: false });
         }
+      },
+
+      handleLoginRoleState: (role) => {
+        set({ loggedInRole: role });
       },
 
       forgotPassword: async (email) => {
@@ -294,14 +301,16 @@ export const useAuthStore = create(
       name: "auth-storage", // name of the item in localStorage
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => {
-        const { user, security } = state;
+        const { user, security, loggedInRole } = state;
         return {
           ...initialState,
           user,
           security,
+          loggedInRole,
 
           register: () => {},
           login: () => {},
+          handleLoginRoleState: () => {},
           forgotPassword: () => {},
           verifyOTP: () => {},
           setPassword: () => {},

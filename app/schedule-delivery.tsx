@@ -75,7 +75,7 @@ const ScheduleDeliveryScreen = () => {
             rider: null,
             type: null,
           });
-          router.replace("/(tabs)");
+          router.replace("/(sender)");
         }}
       >
         <Ionicons name="chevron-back" size={24} color="black" />

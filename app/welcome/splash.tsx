@@ -7,7 +7,7 @@ import { Text, View } from "@/components/Themed";
 
 const Splash = () => {
   const navigation = useNavigation();
-  const { security } = useAuthStore();
+  const { security, loggedInRole } = useAuthStore();
   const pulseAnimation = useRef(new Animated.Value(0.8)).current;
   useEffect(() => {
     const pulse = () => {
@@ -28,8 +28,12 @@ const Splash = () => {
     pulse();
 
     const timer = setTimeout(() => {
-      security ? router.push("/(tabs)") : router.push("/(auth)/start");
-      // router.push("/(tabs)");
+      security
+        ? loggedInRole === "sender" || !loggedInRole
+          ? router.replace("/(sender)")
+          : router.replace("/(rider)")
+        : router.push("/(auth)/start");
+      // router.push("/(sender)");
     }, 4000);
     return () => clearTimeout(timer);
   }, [navigation, pulseAnimation]);

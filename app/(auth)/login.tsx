@@ -1,6 +1,9 @@
 import { useState } from "react";
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -11,8 +14,7 @@ import tw from "twrnc";
 
 import { Text, View } from "@/components/Themed";
 import { useAuthStore } from "@/stores/auth-store";
-import { AntDesign } from "@expo/vector-icons";
-import Toast from "react-native-toast-message";
+import { useRoute } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const { login, error, loading, success } = useAuthStore();
@@ -66,12 +68,11 @@ const LoginScreen = () => {
 
     if (errors.email === "" && errors.password === "") {
       // PROCEED TO LOGIN
-      const loginUser = await login(email, password);
-      console.log("Login output", success);
+      await login(email, password);
 
       // if (success) {
       //   // Redirect to dashboard
-      //   router.push("/(tabs)");
+      //   router.push("/(sender)");
       // } else {
       //   console.log("Login failed");
       // }
@@ -98,7 +99,6 @@ const LoginScreen = () => {
           value={email}
           onChangeText={(text) => {
             setEmail(text);
-            validateInput("email", text);
           }}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -129,7 +129,6 @@ const LoginScreen = () => {
             value={password}
             onChangeText={(text) => {
               setPassword(text);
-              validateInput("password", text);
             }}
             secureTextEntry={!isPasswordVisible}
             placeholderTextColor="#A8A8A8"

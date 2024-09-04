@@ -88,7 +88,9 @@ function RootLayoutNav() {
         />
 
         {/* PRIVATE SCREENS */}
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+        {/* SENDER SECTION */}
+        <Stack.Screen name="(sender)" options={{ headerShown: false }} />
         <Stack.Screen
           name="instant-delivery"
           options={{ headerShown: false }}
@@ -100,6 +102,7 @@ function RootLayoutNav() {
         <Stack.Screen name="search" options={{ headerShown: false }} />
         <Stack.Screen name="select-item" options={{ headerShown: false }} />
         <Stack.Screen name="my-riders" options={{ headerShown: false }} />
+        <Stack.Screen name="my-rides" options={{ headerShown: false }} />
         <Stack.Screen name="support-faq" options={{ headerShown: false }} />
         <Stack.Screen name="address" options={{ headerShown: false }} />
         <Stack.Screen name="settings" options={{ headerShown: false }} />
@@ -114,7 +117,10 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="invite-friends" options={{ headerShown: false }} />
 
-        {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
+        {/* RIDER SECTION */}
+        <Stack.Screen name="(rider)" options={{ headerShown: false }} />
+
+        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
     </ThemeProvider>
   );

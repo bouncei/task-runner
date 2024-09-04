@@ -3,12 +3,13 @@ import { Text, View } from "@/components/Themed";
 import React from "react";
 import { router } from "expo-router";
 import { useRoute } from "@react-navigation/native";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function OnBoardingScreen() {
-  const { role } = useRoute().params as any;
-
   const goToLogin = () => {
-    router.push("/(auth)/login");
+    router.push({
+      pathname: "/(auth)/login",
+    });
   };
 
   return (

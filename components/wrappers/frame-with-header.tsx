@@ -21,7 +21,7 @@ interface Props {
 
 const FrameWithHeader: React.FC<Props> = ({ children, showBack, title }) => {
   return (
-    <View style={tw`flex-1 h-full  gap-5 h-full w-full px-6`}>
+    <View style={tw`flex-1 h-full  gap-4 h-full w-full px-6`}>
       <SafeAreaView>
         {showBack && (
           <View style={tw`flex flex-row gap-8 pb-5 items-center`}>
@@ -44,12 +44,7 @@ const FrameWithHeader: React.FC<Props> = ({ children, showBack, title }) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View
-              style={tw`flex-1 h-full gap-3 pb-52 `}
-              // behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
-              {children}
-            </View>
+            <View style={tw`flex-1 h-full gap-3 pb-52 `}>{children}</View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

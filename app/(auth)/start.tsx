@@ -2,14 +2,14 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React from "react";
 import { router } from "expo-router";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function StartScreen() {
-  const handleRoute = (role: string) => {
+  const { handleLoginRoleState } = useAuthStore();
+  const handleRoute = (role: "sender" | "rider") => {
+    handleLoginRoleState(role);
     router.push({
       pathname: "/(auth)/onboarding",
-      params: {
-        role,
-      },
     });
   };
 

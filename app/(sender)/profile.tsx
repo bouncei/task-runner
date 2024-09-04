@@ -69,7 +69,7 @@ const ProfileScreen = () => {
 
           <TouchableOpacity
             style={tw`flex-row items-center p-4 `}
-            onPress={() => router.push("/(tabs)/history")}
+            onPress={() => router.push("/(sender)/history")}
           >
             <FontAwesome
               name="history"

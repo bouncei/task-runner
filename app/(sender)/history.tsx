@@ -59,12 +59,11 @@ export default function TabTwoScreen() {
         Delivery History
       </Text>
       <View
-        style={tw`bg-[#0069701A] px-3 py-2 rounded-lg mt-2 flex flex-row gap-2 items-center `}
+        style={tw`bg-[#0069701A] px-3 py-2 rounded-lg mt-1 flex flex-row gap-2 items-center `}
       >
         <EvilIcons name="search" size={28} color={Colors[colorScheme].text} />
 
         <Input
-          colorScheme={colorScheme}
           style={tw`bg-transparent border-0 px-0`}
           placeholder="Search for delivery history..."
           value={searchQuery}
