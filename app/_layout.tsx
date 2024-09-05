@@ -117,6 +117,10 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="invite-friends" options={{ headerShown: false }} />
         <Stack.Screen name="rides" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="withdraw-balance"
+          options={{ headerShown: false }}
+        />
 
         {/* RIDER SECTION */}
         <Stack.Screen name="(rider)" options={{ headerShown: false }} />

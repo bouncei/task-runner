@@ -46,3 +46,13 @@ export interface Address {
   title: string;
   address: string;
 }
+
+export interface Expense {
+  id: string;
+  title: string;
+  description: string;
+  amount: number;
+  date: Date;
+  type: string;
+  // TODO: MAKE NECCESSARY MODIFICATIONS TO FIELD NAMES
+}

@@ -24,10 +24,10 @@ const TripCard: React.FC<TripCardProps> = ({
       {/* HEARDER */}
       <View style={tw`bg-transparent px-4 pb-4`}>
         <View style={tw`flex-row items-center justify-between`}>
-          <Text style={tw`text-lg font-medium`}>{title}</Text>
+          <Text style={tw`text-lg font-medium tracking-wide`}>{title}</Text>
           <TouchableOpacity
             onPress={onPress}
-            style={tw`rounded-full bg-[#F0F3FA] px-3 py-2`}
+            style={tw`rounded-lg bg-[#F0F3FA] px-3 py-2`}
           >
             <Text
               style={tw`text-blue-500 text-center text-xs text-[${primary}]`}

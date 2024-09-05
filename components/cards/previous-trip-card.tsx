@@ -17,7 +17,9 @@ const PreviousTripCard: React.FC<PreviousTripCardProps> = (
     <View style={tw` shadow-md py-4 rounded-[20px]`}>
       {/* HEADER */}
       <View style={tw`bg-transparent pb-4`}>
-        <Text style={tw`text-lg font-medium mb-4 px-4 `}>Previous Trip</Text>
+        <Text style={tw`text-lg font-medium mb-4 px-4  tracking-wide`}>
+          Previous Trip
+        </Text>
         <Image
           source={{ uri: "https://via.placeholder.com/200x100" }}
           style={tw`w-full h-24 `}

@@ -1,12 +1,12 @@
 import tw from "twrnc";
+import { Image, Pressable, ScrollView } from "react-native";
+import { router } from "expo-router";
 
 import { Text, View } from "@/components/Themed";
-import { Image, Pressable, ScrollView } from "react-native";
 import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { primary } from "@/constants/Colors";
 import TripCard from "@/components/cards/trip-card";
 import PreviousTripCard from "@/components/cards/previous-trip-card";
-import { router } from "expo-router";
 
 const HomeScreen = () => {
   const handleNavigation = () => {
@@ -15,8 +15,11 @@ const HomeScreen = () => {
 
   return (
     <View style={tw`flex-1  gap-4 h-full w-full bg-[#EBF0FA]  `}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={tw`flex-1 mb-20 bg-transparent relative `}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={tw`relative`}
+      >
+        <View style={tw`flex-1  bg-transparent relative `}>
           {/* HEADER */}
           <View
             style={tw`flex-row justify-between items-center px-4 h-[13rem] bg-[${primary}] rounded-b-[50px]`}
