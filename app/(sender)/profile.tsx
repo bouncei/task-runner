@@ -92,15 +92,6 @@ const ProfileScreen = () => {
             <Text style={tw`ml-4 text-base`}>Support/FAQ</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={tw`flex-row items-center p-4 `}>
-            <Ionicons
-              name="person-add-sharp"
-              size={24}
-              color={colorScheme === "dark" ? "white" : "black"}
-            />
-            <Text style={tw`ml-4 text-base`}>Invite Friends</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity
             style={tw`flex-row items-center p-4 `}
             onPress={() => router.push("/my-riders")}

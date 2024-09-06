@@ -17,7 +17,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useRoute } from "@react-navigation/native";
 
 const LoginScreen = () => {
-  const { login, error, loading, success } = useAuthStore();
+  const { login, loading } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -94,6 +94,9 @@ const LoginScreen = () => {
               backgroundColor: "#000000",
               color: "#fff",
             },
+            errors.email && errors.email !== ""
+              ? tw`border border-red-500`
+              : tw``,
           ]}
           placeholder="johndoe@email.com"
           value={email}
@@ -124,6 +127,9 @@ const LoginScreen = () => {
               colorScheme === "dark" && {
                 color: "#fff",
               },
+              errors.email && errors.email !== ""
+                ? tw`border border-red-500`
+                : tw``,
             ]}
             placeholder="Password"
             value={password}

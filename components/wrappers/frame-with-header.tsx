@@ -27,7 +27,7 @@ const FrameWithHeader: React.FC<Props> = ({
   title,
 }) => {
   return (
-    <View style={tw`flex-1   gap-4  w-full px-6`}>
+    <View style={tw`flex-1   gap-4  w-full px-4`}>
       <SafeAreaView>
         {showBack && (
           <View style={tw`flex flex-row gap-8 pb-5 items-center`}>

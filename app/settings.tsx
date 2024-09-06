@@ -28,19 +28,6 @@ const SettingsScreen = () => {
           />
         </TouchableOpacity>
 
-        {/*  CHANGE LANGUAGE */}
-        <TouchableOpacity
-          onPress={() => router.push("/change-language")}
-          style={tw`border border-[${primary}] p-4 rounded-xl flex-row items-center `}
-        >
-          <Text style={tw`flex-1 text-base `}>Change Language</Text>
-          <FontAwesome
-            name="angle-right"
-            size={24}
-            color={colorScheme === "dark" ? "white" : "black"}
-          />
-        </TouchableOpacity>
-
         {/*  PRIVACY POLICY */}
         <TouchableOpacity
           onPress={() => router.push("/privacy-policy")}

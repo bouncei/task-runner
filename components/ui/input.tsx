@@ -11,10 +11,11 @@ import tw from "twrnc";
 // Define the props for the Input component
 export interface InputProps extends TextInputProps {
   style?: StyleProp<ViewStyle>;
+  error?: any;
 }
 
 const Input = React.forwardRef<TextInput, InputProps>(
-  ({ style, ...props }, ref) => {
+  ({ style, error, ...props }, ref) => {
     const colorScheme = useColorScheme() ?? "light";
     return (
       <TextInput
@@ -27,6 +28,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             backgroundColor: "#000000",
             color: "#fff",
           },
+          error && error !== "" ? tw`border border-red-500` : tw``,
           style,
         ]}
         placeholderTextColor="#A8A8A8"

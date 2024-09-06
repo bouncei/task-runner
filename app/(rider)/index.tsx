@@ -1,5 +1,5 @@
 import tw from "twrnc";
-import { Image, Pressable, ScrollView } from "react-native";
+import { Image, Pressable, ScrollView, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 
 import { Text, View } from "@/components/Themed";
@@ -37,9 +37,11 @@ const HomeScreen = () => {
               </View>
             </View>
 
-            <View style={tw`flex-row items-center gap-4 bg-transparent`}>
+            <View style={tw`flex-row items-center gap-4 bg-transparent mr-2`}>
               <FontAwesome name="bell" size={25} color="white" />
-              <FontAwesome name="search" size={25} color="white" />
+              <TouchableOpacity onPress={() => router.push("/rider-search")}>
+                <FontAwesome name="search" size={25} color="white" />
+              </TouchableOpacity>
             </View>
           </View>
 

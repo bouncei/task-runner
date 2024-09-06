@@ -124,16 +124,6 @@ const ProfileScreen = () => {
           <Text style={tw`ml-4 text-base`}>Support/FAQ</Text>
         </TouchableOpacity>
 
-        {/* INVITE FRIENDS */}
-        <TouchableOpacity style={tw`flex-row items-center py-4 `}>
-          <Ionicons
-            name="person-add-sharp"
-            size={24}
-            color={colorScheme === "dark" ? "white" : "black"}
-          />
-          <Text style={tw`ml-4 text-base`}>Invite Friends</Text>
-        </TouchableOpacity>
-
         {/* MY RIDES */}
         <TouchableOpacity
           style={tw`flex-row items-center py-4 `}

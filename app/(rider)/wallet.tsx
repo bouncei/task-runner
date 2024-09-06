@@ -1,12 +1,10 @@
 import tw from "twrnc";
-import { Image, Pressable, ScrollView, TouchableOpacity } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import { router } from "expo-router";
 
 import { Text, View } from "@/components/Themed";
-import { FontAwesome, FontAwesome6, Ionicons } from "@expo/vector-icons";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { primary } from "@/constants/Colors";
-import TripCard from "@/components/cards/trip-card";
-import PreviousTripCard from "@/components/cards/previous-trip-card";
 import { Button } from "@/components/ui/button";
 import WalletHistoryCard from "@/components/cards/wallet-history-card";
 import WalletBalanceCard from "@/components/cards/wallet-balance-card";
@@ -42,7 +40,7 @@ const WalletScreen = () => {
             style={tw`absolute top-[10rem] w-full h-full px-6 bg-transparent pb-20`}
           >
             <View style={tw`gap-4 bg-transparent`}>
-              {/* ALL TRIPS FOR THE PRESENT DAY*/}
+              {/* ALL TRIPS USING A FILTER*/}
               <Pressable
                 onPress={() => {}}
                 style={tw`bg-white shadow-md py-4 rounded-[20px] `}
