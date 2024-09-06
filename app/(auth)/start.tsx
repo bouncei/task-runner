@@ -2,8 +2,17 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React from "react";
 import { router } from "expo-router";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function StartScreen() {
+  const { handleLoginRoleState } = useAuthStore();
+  const handleRoute = (role: "sender" | "rider") => {
+    handleLoginRoleState(role);
+    router.push({
+      pathname: "/(auth)/login",
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -12,7 +21,7 @@ export default function StartScreen() {
         </Text>
 
         <TouchableOpacity
-          onPress={() => router.push("/(auth)/onboarding")}
+          onPress={() => handleRoute("sender")}
           style={[styles.button, styles.senderButton]}
         >
           <Text lightColor="white" style={{ fontSize: 18 }}>
@@ -21,7 +30,7 @@ export default function StartScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push("/(auth)/onboarding")}
+          onPress={() => handleRoute("rider")}
           style={[styles.button, styles.riderButton]}
         >
           <Text style={{ fontSize: 18 }}>Rider</Text>

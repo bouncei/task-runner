@@ -2,11 +2,16 @@ import { ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React from "react";
 import { router } from "expo-router";
+import { useRoute } from "@react-navigation/native";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function OnBoardingScreen() {
   const goToLogin = () => {
-    router.push("/(auth)/login");
+    router.push({
+      pathname: "/(auth)/start",
+    });
   };
+
   return (
     <ImageBackground
       source={require("@/assets/images/start.png")} // Replace with your image URL or require statement for a local image
@@ -15,7 +20,7 @@ export default function OnBoardingScreen() {
       <View style={styles.overlay}>
         <Text style={styles.title}>Taskrunner</Text>
         <Text style={styles.subtitle}>
-          Items will be Delivered in few clicks
+          Items will be delivered in few clicks
         </Text>
         <Text style={styles.description}>
           On-demand delivery whenever and wherever the need arises.

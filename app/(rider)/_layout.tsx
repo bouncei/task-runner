@@ -1,22 +1,21 @@
-import React from "react";
+import { useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { router, Tabs } from "expo-router";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
+import { useAuthStore } from "@/stores/auth-store";
+import Toast from "react-native-toast-message";
+import { useIsFocused } from "@react-navigation/native";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { TabBarIcon } from "@/components/TabBarIcon";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() ?? "light";
+  const { security } = useAuthStore();
+  const isFocused = useIsFocused();
 
   return (
     <Tabs
@@ -32,20 +31,6 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? "light"].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
           headerShown: false,
         }}
       />
@@ -56,8 +41,21 @@ export default function TabLayout() {
         options={{
           title: "History",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="calendar" color={color} />
+            <TabBarIcon name="file-alt" color={color} />
           ),
+          headerShown: false,
+        }}
+      />
+
+      {/* WALLET COMPONENT */}
+      <Tabs.Screen
+        name="wallet"
+        options={{
+          title: "Wallet",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="wallet-travel" size={26} color={color} />
+          ),
+          headerShown: false,
         }}
       />
 
@@ -67,6 +65,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerShown: false,
         }}
       />
     </Tabs>

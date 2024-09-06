@@ -74,7 +74,7 @@ const resentSearches = [
 ];
 
 const SearchScreen = () => {
-  const { from } = useRoute().params as any;
+  const { from, type } = useRoute().params as any;
   const { setNewDelivery, newDelivery } = useDeliveryStore();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -122,6 +122,7 @@ const SearchScreen = () => {
           },
           itemDetails: undefined,
           rider: undefined,
+          type,
         });
       } else {
         setNewDelivery({
@@ -131,6 +132,7 @@ const SearchScreen = () => {
           },
           itemDetails: undefined,
           rider: undefined,
+          type,
         });
       }
       router.back();
@@ -141,7 +143,7 @@ const SearchScreen = () => {
 
   return (
     <FrameWithHeader>
-      <KeyboardAvoidingView
+      <View
         style={tw`bg-[#0069701A] px-3 py-2 rounded-lg mt-2 flex flex-row gap-2 items-center `}
       >
         <EvilIcons name="location" size={28} color={Colors[colorScheme].text} />
@@ -154,7 +156,7 @@ const SearchScreen = () => {
           onChangeText={handleSearchQueryChange}
           keyboardType="web-search"
         />
-      </KeyboardAvoidingView>
+      </View>
 
       {loading ? (
         <Text style={tw`w-full text-center font-medium text-base`}>

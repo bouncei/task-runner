@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
   TouchableOpacity,
-  ScrollView,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import tw from "twrnc";
@@ -15,39 +16,47 @@ import { Button } from "@/components/ui/button";
 interface Props {
   children: React.ReactNode;
   showBack?: boolean;
+  disableScroll?: boolean;
   title?: string;
 }
 
-const FrameWithHeader: React.FC<Props> = ({ children, showBack, title }) => {
+const FrameWithHeader: React.FC<Props> = ({
+  children,
+  showBack,
+  disableScroll,
+  title,
+}) => {
   return (
-    <View style={tw`flex-1 h-full py-20 gap-5 h-full w-full px-6`}>
-      {showBack && (
-        <View style={tw`flex flex-row gap-4  items-center`}>
-          <Button
-            variant="ghost"
-            style={tw` bg-white p-2 py-3 rounded-full shadow-xl`}
-            onPress={() => router.back()}
-          >
-            <Ionicons name="chevron-back" size={25} color="black" />
-          </Button>
-          {title && (
-            <Text style={tw`text-xl text-center font-medium`}>{title}</Text>
-          )}
-        </View>
-      )}
-
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View
-            style={tw`flex-1 h-full gap-3 `}
-            // behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
-            {children}
+    <View style={tw`flex-1   gap-4  w-full px-4`}>
+      <SafeAreaView>
+        {showBack && (
+          <View style={tw`flex flex-row gap-8 pb-5 items-center`}>
+            <Button
+              variant="ghost"
+              style={tw` bg-white p-0 size-[46px] rounded-full shadow-md`}
+              onPress={() => router.back()}
+            >
+              <Ionicons name="chevron-back" size={25} color="black" />
+            </Button>
+            {title && (
+              <Text style={tw`text-xl tracking-wide text-center font-semibold`}>
+                {title}
+              </Text>
+            )}
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        )}
+
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={!disableScroll}
+          >
+            <View style={tw` gap-3 pb-20 `}>{children}</View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </View>
   );
 };

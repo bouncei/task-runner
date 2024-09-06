@@ -107,6 +107,7 @@ const ItemDetailsScreen = () => {
       },
       itemDetails: itemData,
       rider: undefined,
+      type: newDelivery?.type ? newDelivery.type : null,
     });
 
     if (edit) {

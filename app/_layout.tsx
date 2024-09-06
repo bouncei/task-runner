@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import Toast from "react-native-toast-message";
+import { View } from "@/components/Themed";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -54,6 +56,9 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <View style={{ zIndex: 1000 }}>
+        <Toast />
+      </View>
       <Stack>
         <Stack.Screen name="welcome/splash" options={{ headerShown: false }} />
 
@@ -83,7 +88,9 @@ function RootLayoutNav() {
         />
 
         {/* PRIVATE SCREENS */}
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+        {/* SENDER SECTION */}
+        <Stack.Screen name="(sender)" options={{ headerShown: false }} />
         <Stack.Screen
           name="instant-delivery"
           options={{ headerShown: false }}
@@ -94,6 +101,29 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="search" options={{ headerShown: false }} />
         <Stack.Screen name="select-item" options={{ headerShown: false }} />
+        <Stack.Screen name="my-riders" options={{ headerShown: false }} />
+        <Stack.Screen name="support-faq" options={{ headerShown: false }} />
+        <Stack.Screen name="address" options={{ headerShown: false }} />
+        <Stack.Screen name="settings" options={{ headerShown: false }} />
+        <Stack.Screen name="change-password" options={{ headerShown: false }} />
+        <Stack.Screen name="privacy-policy" options={{ headerShown: false }} />
+        <Stack.Screen name="contact-us" options={{ headerShown: false }} />
+        <Stack.Screen name="delete-account" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="help-and-support"
+          options={{ headerShown: false }}
+        />
+
+        {/* RIDER SECTION */}
+        <Stack.Screen name="(rider)" options={{ headerShown: false }} />
+        <Stack.Screen name="my-rides" options={{ headerShown: false }} />
+        <Stack.Screen name="rides" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="withdraw-balance"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="rider-search" options={{ headerShown: false }} />
+        <Stack.Screen name="rider-filter" options={{ headerShown: false }} />
 
         {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
       </Stack>

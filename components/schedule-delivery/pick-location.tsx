@@ -1,8 +1,11 @@
+import { useState } from "react";
 import tw from "twrnc";
 import { Text, View } from "../Themed";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Platform } from "react-native";
 import { router } from "expo-router";
 import { Button } from "../ui/button";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useDeliveryStore } from "@/stores/delivery-store";
 
 interface PickLocationProps {
   pickupLocation: any | null;
@@ -13,6 +16,26 @@ const PickLocation = ({
   pickupLocation,
   deliveryLocation,
 }: PickLocationProps) => {
+  const { setNewDelivery, newDelivery } = useDeliveryStore();
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+
+  const onDateChange = (event: any, selectedDate?: Date) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(Platform.OS === "ios");
+    setDate(currentDate);
+    setNewDelivery({ date: currentDate, type: "schedule" });
+  };
+
+  const onTimeChange = (event: any, selectedTime?: Date) => {
+    const currentTime = selectedTime || time;
+    setShowTimePicker(Platform.OS === "ios");
+    setTime(currentTime);
+    setNewDelivery({ time: currentTime, type: "schedule" });
+  };
+
   return (
     <View style={tw`px-4`}>
       <Text style={tw`text-lg font-semibold mt-4`}>Schedule Delivery</Text>
@@ -25,7 +48,7 @@ const PickLocation = ({
         onPress={() => {
           router.push({
             pathname: "/search",
-            params: { from: "pickup" },
+            params: { from: "pickup", type: "schedule" },
           });
         }}
         style={tw`bg-gray-100 p-3 rounded-lg mt-2`}
@@ -43,7 +66,7 @@ const PickLocation = ({
         onPress={() => {
           router.push({
             pathname: "/search",
-            params: { from: "delivery" },
+            params: { from: "delivery", type: "schedule" },
           });
         }}
         style={tw`bg-gray-100 p-3 rounded-lg mt-2`}
@@ -53,56 +76,53 @@ const PickLocation = ({
         </Text>
       </TouchableOpacity>
 
-      {/* //TODO" FOR SCHEDULED DELIVERY, ADD DATE AND TIME INPUTS */}
-
-      {/* Vehicle Type */}
-      {/* <Text style={tw`text-sm font-medium text-gray-500   mt-4`}>
-              Vehicle Type
+      <View style={tw`flex items-center gap-5 flex-row `}>
+        {/* Select Date */}
+        <View style={tw`flex-1`}>
+          <Text style={tw`text-sm font-medium text-gray-500 mt-4`}>
+            Select Date
+          </Text>
+          <TouchableOpacity
+            onPress={() => setShowDatePicker(true)}
+            style={tw`bg-gray-100 p-3 rounded-lg mt-2`}
+          >
+            <Text style={tw`text-base text-gray-700`}>
+              📅 {date.toLocaleDateString()}
             </Text>
-            <View style={tw`flex-row gap-5 mt-2 w-full `}>
-              <TouchableOpacity
-                style={[
-                  tw`w-[30%] bg-gray-100 flex items-center justify-center p-4 rounded-lg`,
-                  selectedVehicle === "bike" ? tw`bg-[#A8DADC]` : null,
-                ]}
-                onPress={() => handleVehicleSelect("bike")}
-              >
-                <Image
-                  source={require("@/assets/images/icons/bike.png")}
-                  style={{
-                    resizeMode: "contain",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  tw`w-[30%] flex items-center justify-center bg-gray-100 p-4 rounded-lg`,
-                  selectedVehicle === "car" ? tw`bg-[#A8DADC]` : null,
-                ]}
-                onPress={() => handleVehicleSelect("car")}
-              >
-                <Image
-                  source={require("@/assets/images/icons/car.png")}
-                  style={{
-                    resizeMode: "contain",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  tw`w-[30%] flex items-center justify-center bg-gray-100 p-4 rounded-lg`,
-                  selectedVehicle === "van" ? tw`bg-[#A8DADC]` : null,
-                ]}
-                onPress={() => handleVehicleSelect("van")}
-              >
-                <Image
-                  source={require("@/assets/images/icons/van.png")}
-                  style={{
-                    resizeMode: "contain",
-                  }}
-                />
-              </TouchableOpacity>
-            </View> */}
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display="default"
+              onChange={onDateChange}
+            />
+          )}
+        </View>
+
+        {/* Select Time */}
+        <View style={tw`flex-1`}>
+          <Text style={tw`text-sm font-medium text-gray-500 mt-4`}>
+            Select Time
+          </Text>
+          <TouchableOpacity
+            onPress={() => setShowTimePicker(true)}
+            style={tw`bg-gray-100 p-3 rounded-lg mt-2`}
+          >
+            <Text style={tw`text-base text-gray-700`}>
+              ⏰ {time.toLocaleTimeString()}
+            </Text>
+          </TouchableOpacity>
+          {showTimePicker && (
+            <DateTimePicker
+              value={time}
+              mode="time"
+              display="default"
+              onChange={onTimeChange}
+            />
+          )}
+        </View>
+      </View>
 
       {/* Next Button */}
       <Button
