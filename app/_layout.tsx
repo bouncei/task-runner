@@ -124,6 +124,7 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="rider-search" options={{ headerShown: false }} />
         <Stack.Screen name="rider-filter" options={{ headerShown: false }} />
+        <Stack.Screen name="notifications" options={{ headerShown: false }} />
 
         {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
       </Stack>

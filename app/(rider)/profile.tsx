@@ -59,7 +59,7 @@ const ProfileScreen = () => {
       {/* Navigation Options */}
       <View style={tw``}>
         {/* EDIT PROFILE */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={tw`flex-row items-center py-4 `}
           //   onPress={() => router.push("/address")}
         >
@@ -69,7 +69,7 @@ const ProfileScreen = () => {
             color={colorScheme === "dark" ? "white" : "black"}
           />
           <Text style={tw`ml-4 text-base`}>Edit Profile</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* PAYMENTS */}
         <TouchableOpacity
