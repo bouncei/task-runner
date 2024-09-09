@@ -17,11 +17,20 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useRoute } from "@react-navigation/native";
 
 const LoginScreen = () => {
-  const { login, loading } = useAuthStore();
+  const { login, loading, user, loggedInRole } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const colorScheme = useColorScheme();
+
+  // If the user is already logged in, redirect to the home page
+  if (user) {
+    loggedInRole === "rider"
+      ? router.replace("/(rider)")
+      : router.push("/(sender)");
+
+    return null;
+  }
 
   const [errors, setErrors] = useState({
     email: "",
@@ -127,9 +136,6 @@ const LoginScreen = () => {
               colorScheme === "dark" && {
                 color: "#fff",
               },
-              errors.email && errors.email !== ""
-                ? tw`border border-red-500`
-                : tw``,
             ]}
             placeholder="Password"
             value={password}

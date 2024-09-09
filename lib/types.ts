@@ -1,11 +1,23 @@
 export interface User {
-  id: string;
-  name: string;
+  ID: string;
+  first_name: string;
+  last_name: string;
+  fullname: string;
   email: string;
-  role: string;
-  //  TODO: OTHER RELEVANT FIELDS
-  created_at: Date;
-  updated_at: Date;
+  img: string;
+  registered: Date;
+  role: {
+    "1": "administrator";
+  };
+  phone_number: string;
+  country: string;
+  state: string;
+  address: string;
+  landmark: string;
+  gender: string;
+  email_verified: "no" | "yes";
+  phone_verified: "no" | "yes";
+  status: "inactive" | "active";
 }
 
 export interface Security {
@@ -44,7 +56,7 @@ export interface Rider {
 export interface Address {
   id: string;
   title: string;
-  address: string;
+  pickup_address: string;
 }
 
 export interface Expense {
@@ -55,4 +67,20 @@ export interface Expense {
   date: Date;
   type: string;
   // TODO: MAKE NECCESSARY MODIFICATIONS TO FIELD NAMES
+}
+
+export interface Reservation {
+  id?: string;
+  location_category?: string;
+  equipment?: string;
+  accessories?: string; // THIS FIELD SHOULD BE A COMMA SEPERATED STRING OF ACCESSORIES(Options: Gel Cushion, Extended Leg Rest (Right), Extended Leg Rest (Left), Extra Leg)
+  address?: string;
+  rental_date?: Date; // mm/dd/yyyy
+  return_date?: Date; // mm/dd/yyyy
+  height?: string;
+  weight?: string;
+  full_name?: string;
+  email_address?: string;
+  phone_number?: string;
+  status?: "Pending" | "Active" | "Cancelled" | "Retrived"; // options: Active, Pending, Cancelled, Retrived
 }

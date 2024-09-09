@@ -68,7 +68,6 @@ export const useDeliveryStore = create(
 
       getDeliveries: async (useremail, usertoken) => {
         set({ loading: true });
-        console.log("security", useremail, usertoken, `Bearer ${usertoken}`);
         try {
           const response = await api.post(
             "/get-delivery",
@@ -82,8 +81,6 @@ export const useDeliveryStore = create(
             }
           );
 
-          console.log("get deliveries response:", response.data);
-
           response.data &&
             set({ deliveries: response.data.delivery_details, success: true });
         } catch (error: any) {
@@ -92,8 +89,8 @@ export const useDeliveryStore = create(
           Toast.show({
             type: "error",
             text1: "Something went wrong",
-            text2: "Please try again",
           });
+
           return false;
         } finally {
           set({ loading: false });

@@ -17,9 +17,9 @@ const HomeScreen = () => {
     <View style={tw`flex-1  gap-4 h-full w-full bg-[#EBF0FA]  `}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={tw`relative`}
+        contentContainerStyle={tw``}
       >
-        <View style={tw`flex-1  bg-transparent relative `}>
+        <View style={[tw`flex-1 min-h-[80rem]  bg-transparent relative `]}>
           {/* HEADER */}
           <View
             style={tw`flex-row justify-between items-center px-4 h-[13rem] bg-[${primary}] rounded-b-[50px]`}

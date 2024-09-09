@@ -28,6 +28,11 @@ interface UserStore {
   forgotPassword: (email: string) => void;
   verifyOTP: (otp: string | number) => void;
   setPassword: (password: string) => void;
+  handleChangePassword: (
+    old_password: string,
+    new_password: string,
+    security: Security
+  ) => void;
 
   logout: () => void;
 }
@@ -286,6 +291,48 @@ export const useAuthStore = create(
         }
       },
 
+      handleChangePassword: async (old_password, new_password, security) => {
+        set({ loading: true });
+        try {
+          const { token, email } = security;
+          const response = await api.post(
+            "/change-password",
+            { old_password, new_password },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                UserEmail: email,
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.data) {
+            set({ success: true });
+            Toast.show({
+              type: "success",
+              text1: "Password updated successfully",
+            });
+
+            router.back();
+
+            return true;
+          }
+        } catch (error: any) {
+          set({ error: error.response.data.message, success: false });
+
+          console.log("Error changing password:", error);
+          Toast.show({
+            type: "error",
+            text1: error.response.data.message,
+          });
+
+          return false;
+        } finally {
+          set({ loading: false });
+        }
+      },
+
       logout: () => {
         set({ user: null, security: null });
 
@@ -314,6 +361,7 @@ export const useAuthStore = create(
           forgotPassword: () => {},
           verifyOTP: () => {},
           setPassword: () => {},
+          handleChangePassword: () => {},
           logout: () => {},
         };
       },
