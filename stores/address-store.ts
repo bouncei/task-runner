@@ -1,6 +1,7 @@
 import { api } from "@/api/config";
 import { Address, Security } from "@/lib/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { create } from "zustand";
@@ -21,6 +22,7 @@ interface AddressStore {
     updateData: { pickup_id: string; title: string; pickup_address: string },
     security: Security
   ) => void;
+  setDefaultAddress: (pickup_id: string) => void;
   deleteAddress: (pickup_id: string, security: Security) => void;
 }
 
@@ -31,7 +33,7 @@ const initialState = {
   error: null,
 };
 
-export const useRidersStore = create(
+export const useAddressStore = create(
   persist<AddressStore>(
     (set, get) => ({
       ...initialState,
@@ -52,8 +54,10 @@ export const useRidersStore = create(
             }
           );
 
+          console.log("Get all addresses", response.data);
+
           response.data &&
-            set({ addresses: response.data.address_details, success: true });
+            set({ addresses: response.data.pickup_details, success: true });
 
           return true;
         } catch (error: any) {
@@ -96,6 +100,7 @@ export const useRidersStore = create(
               text1: "Address added successfully",
             });
 
+            router.back();
             return true;
           }
         } catch (error: any) {
@@ -157,6 +162,9 @@ export const useRidersStore = create(
           set({ loading: false });
         }
       },
+      setDefaultAddress: async (pickup_id) => {
+        // TODO
+      },
       deleteAddress: async (pickup_id, security) => {
         set({ loading: true });
         try {
@@ -211,6 +219,7 @@ export const useRidersStore = create(
           getAddresses: () => {},
           addAddress: () => {},
           updateAddress: () => {},
+          setDefaultAddress: () => {},
           deleteAddress: () => {},
         };
       },

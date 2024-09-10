@@ -24,13 +24,13 @@ const LoginScreen = () => {
   const colorScheme = useColorScheme();
 
   // If the user is already logged in, redirect to the home page
-  if (user) {
-    loggedInRole === "rider"
-      ? router.replace("/(rider)")
-      : router.push("/(sender)");
+  // if (user) {
+  //   loggedInRole === "rider"
+  //     ? router.replace("/(rider)")
+  //     : router.push("/(sender)");
 
-    return null;
-  }
+  //   return null;
+  // }
 
   const [errors, setErrors] = useState({
     email: "",

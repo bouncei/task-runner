@@ -53,7 +53,7 @@ const FrameWithHeader: React.FC<Props> = ({
             showsVerticalScrollIndicator={false}
             scrollEnabled={!disableScroll}
           >
-            <View style={tw` gap-3 pb-20  `}>{children}</View>
+            <View style={tw` gap-3 pb-32  `}>{children}</View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

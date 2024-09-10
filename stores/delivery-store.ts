@@ -84,7 +84,7 @@ export const useDeliveryStore = create(
           response.data &&
             set({ deliveries: response.data.delivery_details, success: true });
         } catch (error: any) {
-          set({ error: error.response.data.message, success: false });
+          set({ success: false });
           console.log("Error getting deliveries:", error);
           Toast.show({
             type: "error",

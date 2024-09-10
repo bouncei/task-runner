@@ -7,7 +7,7 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
 interface AddressCardProps {
-  address?: Address;
+  address: Address;
 }
 
 const AddressCard = ({ address }: AddressCardProps) => {
@@ -16,19 +16,17 @@ const AddressCard = ({ address }: AddressCardProps) => {
   };
 
   return (
-    <View style={tw`flex-row items-center shadow-md p-4 gap-10 rounded-lg`}>
+    <View style={tw`flex-row items-center shadow p-4 gap-10 rounded-lg`}>
       <View style={tw`flex-1 flex-row items-start gap-1`}>
         <Ionicons
           name="location-outline"
-          size={25}
+          size={23}
           color="#5C5C5C"
           style={tw`flex-shrink-0`}
         />
         <View style={tw`items-start gap-1`}>
-          <Text style={tw`text-lg `}>Office</Text>
-          <Text style={tw`text-sm text-gray-500`}>
-            2972 Westheimer Rd. Santa Ana, Illinois 85486{" "}
-          </Text>
+          <Text style={tw`font-medium`}>{address.title}</Text>
+          <Text style={tw`font-light`}>{address.pickup_address}</Text>
         </View>
       </View>
 
