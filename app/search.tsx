@@ -149,7 +149,6 @@ const SearchScreen = () => {
         <EvilIcons name="location" size={28} color={Colors[colorScheme].text} />
 
         <Input
-          colorScheme={colorScheme}
           style={tw`bg-transparent border-0 px-0`}
           placeholder="Search location..."
           value={searchQuery}

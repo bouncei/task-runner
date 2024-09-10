@@ -27,7 +27,7 @@ const FrameWithHeader: React.FC<Props> = ({
   title,
 }) => {
   return (
-    <View style={tw`flex-1   gap-4  w-full px-4`}>
+    <View style={tw`flex-1 pt-[15px]  gap-4  w-full px-4`}>
       <SafeAreaView>
         {showBack && (
           <View style={tw`flex flex-row gap-8 pb-5 items-center`}>
@@ -53,7 +53,7 @@ const FrameWithHeader: React.FC<Props> = ({
             showsVerticalScrollIndicator={false}
             scrollEnabled={!disableScroll}
           >
-            <View style={tw` gap-3 pb-20 `}>{children}</View>
+            <View style={tw` gap-3 pb-32  `}>{children}</View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

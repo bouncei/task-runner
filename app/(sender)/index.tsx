@@ -21,7 +21,7 @@ import { useAuthStore } from "@/stores/auth-store";
 
 export default function TabOneScreen() {
   const theme = useColorScheme() ?? "light";
-  const { security } = useAuthStore();
+  const { security, user } = useAuthStore();
   const { getDeliveries, deliveries, loading } = useDeliveryStore();
 
   useEffect(() => {
@@ -65,8 +65,11 @@ export default function TabOneScreen() {
                   },
                   styles.avatar,
                 ]}
+                onPress={() => router.push("/(sender)/profile")}
               >
-                <Text>DE</Text>
+                <Text>
+                  {user?.first_name.charAt(0)! + user?.last_name.charAt(0)!}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -137,11 +140,7 @@ export default function TabOneScreen() {
               )}
 
               {/* DISPLAY HISTORY */}
-              {loading ? (
-                <View style={tw`py-20`}>
-                  <ActivityIndicator size="large" color="#006970" />
-                </View>
-              ) : deliveries.length === 0 ? (
+              {deliveries.length === 0 ? (
                 <View
                   style={tw`flex flex-col py-10 gap-5 items-center  my-auto justify-center`}
                 >
@@ -183,7 +182,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 20,
-    paddingTop: 80,
+    paddingTop: 60,
     // borderRadius: 20,
   },
   headerContent: {

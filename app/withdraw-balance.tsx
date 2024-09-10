@@ -31,7 +31,7 @@ const WithdrawalBalanceScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tw`relative`}
       >
-        <View style={tw`flex-1  bg-transparent relative `}>
+        <View style={tw`flex-1 min-h-[60rem] bg-transparent relative `}>
           {/* HEADER */}
           <View
             style={tw`flex-row  items-center px-4 h-[13rem] bg-[${primary}] rounded-b-[50px]`}

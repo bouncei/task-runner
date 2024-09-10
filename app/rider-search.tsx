@@ -15,7 +15,7 @@ const RiderSearch = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Add a state for search query
 
   return (
-    <FrameWithHeader>
+    <FrameWithHeader showBack title="Search">
       {/* HEADER */}
       <View style={tw`flex flex-row items-center gap-2 `}>
         {/* SEARCH BAR */}

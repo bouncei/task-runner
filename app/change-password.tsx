@@ -5,12 +5,19 @@ import FrameWithHeader from "@/components/wrappers/frame-with-header";
 import AddressCard from "@/components/cards/address-card";
 import { Button } from "@/components/ui/button";
 import { Text, View } from "@/components/Themed";
-import { TouchableOpacity, useColorScheme } from "react-native";
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  useColorScheme,
+} from "react-native";
 import { Input } from "@/components/ui/input";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuthStore } from "@/stores/auth-store";
 
 const ChangePasswordScreen = () => {
   const colorScheme = useColorScheme() ?? "light";
+  const { security } = useAuthStore();
+  const { handleChangePassword, loading, error } = useAuthStore();
 
   const [passwords, setPasswords] = useState({
     old: "",
@@ -37,7 +44,10 @@ const ChangePasswordScreen = () => {
 
   const handleOnChange = (field: keyof typeof passwords, text: string) => {
     setPasswords((prev) => ({ ...prev, [field]: text }));
-    validateInput(field, text);
+    setErrors((prev) => ({
+      ...prev,
+      [field]: "",
+    }));
   };
 
   const validateInput = (field: keyof typeof passwords, text: string) => {
@@ -61,8 +71,16 @@ const ChangePasswordScreen = () => {
   };
 
   const handleSavePassword = () => {
-    if (Object.values(errors).every((error) => error === "")) {
-      // Save password logic here
+    // Validate all input fields
+    validateInput("old", passwords.old);
+    validateInput("new", passwords.new);
+    validateInput("confirm", passwords.confirm);
+
+    if (
+      Object.values(errors).every((error) => error === "") &&
+      Object.values(passwords).every((password) => password !== "")
+    ) {
+      handleChangePassword(passwords.old, passwords.new, security!);
     } else {
       alert("Please fix the errors and try again");
     }
@@ -78,15 +96,16 @@ const ChangePasswordScreen = () => {
             colorScheme === "dark" && {
               backgroundColor: "#000000",
             },
+            errors.old && errors.old !== "" ? tw`border border-red-500` : tw``,
           ]}
         >
           <Input
             placeholder="Old Password"
             style={tw`border-0 flex-1 text-base h-14 `}
             value={passwords.old}
+            error={errors.old}
             onChangeText={(text) => {
               handleOnChange("old", text);
-              // validateInput("password", text);
             }}
             secureTextEntry={!passwordVisibile.old}
             placeholderTextColor="#A8A8A8"
@@ -117,15 +136,16 @@ const ChangePasswordScreen = () => {
             colorScheme === "dark" && {
               backgroundColor: "#000000",
             },
+            errors.new && errors.new !== "" ? tw`border border-red-500` : tw``,
           ]}
         >
           <Input
             placeholder="New Password"
             style={tw`border-0 flex-1 text-base h-14 `}
             value={passwords.new}
+            error={errors.new}
             onChangeText={(text) => {
               handleOnChange("new", text);
-              // validateInput("password", text);
             }}
             secureTextEntry={!passwordVisibile.new}
             placeholderTextColor="#A8A8A8"
@@ -156,15 +176,18 @@ const ChangePasswordScreen = () => {
             colorScheme === "dark" && {
               backgroundColor: "#000000",
             },
+            errors.confirm && errors.confirm !== ""
+              ? tw`border border-red-500`
+              : tw``,
           ]}
         >
           <Input
             placeholder="Confirm Password"
             style={tw`border-0 flex-1 text-base h-14 `}
+            error={errors.confirm}
             value={passwords.confirm}
             onChangeText={(text) => {
               handleOnChange("confirm", text);
-              // validateInput("password", text);
             }}
             secureTextEntry={!passwordVisibile.confirm}
             placeholderTextColor="#A8A8A8"
@@ -193,7 +216,11 @@ const ChangePasswordScreen = () => {
 
       {/* Save */}
       <Button size="lg" style={tw`mt-4`} onPress={handleSavePassword}>
-        <Text style={tw`text-white text-base`}>Save</Text>
+        {loading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          <Text style={tw`text-white text-base`}>Save</Text>
+        )}
       </Button>
     </FrameWithHeader>
   );

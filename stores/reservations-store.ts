@@ -1,49 +1,41 @@
-import { api } from "@/api/config";
-import { Address, Security } from "@/lib/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
-import Toast from "react-native-toast-message";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
+import { Reservation, Security } from "@/lib/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
+import { api } from "@/api/config";
 
-interface AddressStore {
-  addresses: Address[] | [];
+interface ReservationStore {
+  reservations: Reservation[] | [];
   loading: boolean;
   success: boolean;
   error: string | null;
 
-  getAddresses: (security: Security) => void;
-  addAddress: (
-    addData: { title: string; pickup_address: string },
-    security: Security
-  ) => void;
-  updateAddress: (
-    updateData: { pickup_id: string; title: string; pickup_address: string },
-    security: Security
-  ) => void;
-  setDefaultAddress: (pickup_id: string) => void;
-  deleteAddress: (pickup_id: string, security: Security) => void;
+  getReservations: (security: Security) => void;
+  addReservation: (addData: Reservation, security: Security) => void;
+  updateReservation: (updateData: Reservation, security: Security) => void;
+  deleteReservation: (reservation_id: string, security: Security) => void;
 }
 
 const initialState = {
-  addresses: [],
+  reservations: [],
   loading: false,
   success: false,
   error: null,
 };
 
-export const useAddressStore = create(
-  persist<AddressStore>(
+export const useReservationsStore = create(
+  persist<ReservationStore>(
     (set, get) => ({
       ...initialState,
 
-      getAddresses: async (security) => {
+      getReservations: async (security) => {
         set({ loading: true });
         try {
           const { email, token } = security;
+
           const response = await api.post(
-            "/get-pickup-address",
+            "/get-reservations",
             {}, //body
             {
               headers: {
@@ -54,35 +46,59 @@ export const useAddressStore = create(
             }
           );
 
-          console.log("Get all addresses", response.data);
-
           response.data &&
-            set({ addresses: response.data.pickup_details, success: true });
-
+            set({
+              reservations: response.data.reservation_details,
+              success: true,
+            });
           return true;
         } catch (error: any) {
           set({ error: error.response.data.message, success: false });
-          console.log("Error getting pickup addresses:", error);
+          console.log("Error getting reservations:", error);
           Toast.show({
             type: "error",
             text1: "Something went wrong",
           });
+
           return false;
         } finally {
           set({ loading: false });
         }
       },
-      addAddress: async (addData, security) => {
+      addReservation: async (addData, security) => {
         set({ loading: true });
         try {
           const { email, token } = security;
-          const { title, pickup_address } = addData;
+          const {
+            location_category,
+            equipment,
+            accessories,
+            address,
+            rental_date,
+            return_date,
+            height,
+            weight,
+            full_name,
+            email_address,
+            phone_number,
+            status,
+          } = addData;
 
           const response = await api.post(
-            "/add-pickup-address",
+            "/add-reservations",
             {
-              title,
-              pickup_address,
+              location_category,
+              equipment,
+              accessories,
+              address,
+              rental_date,
+              return_date,
+              height,
+              weight,
+              full_name,
+              email_address,
+              phone_number,
+              status,
             },
             {
               headers: {
@@ -97,36 +113,60 @@ export const useAddressStore = create(
             set({ success: true });
             Toast.show({
               type: "success",
-              text1: "Address added successfully",
+              text1: "Reservation made successfully",
             });
 
-            router.back();
             return true;
           }
         } catch (error: any) {
           set({ error: error.response.data.message, success: false });
-          console.log("Error adding new address:", error);
+          console.log("Error adding a reservation:", error);
           Toast.show({
             type: "error",
             text1: error.response.data.message,
           });
+
           return false;
         } finally {
           set({ loading: false });
         }
       },
-      updateAddress: async (updateData, security) => {
+      updateReservation: async (updateData, security) => {
         set({ loading: true });
         try {
           const { email, token } = security;
-          const { pickup_id, title, pickup_address } = updateData;
+          const {
+            id,
+            location_category,
+            equipment,
+            accessories,
+            address,
+            rental_date,
+            return_date,
+            height,
+            weight,
+            full_name,
+            email_address,
+            phone_number,
+            status,
+          } = updateData;
 
           const response = await api.post(
-            "/update-pickup-address",
+            "/update-reservations",
             {
-              pickup_id,
-              title,
-              pickup_address,
+              reservation_id: id,
+              location_category,
+              equipment,
+              accessories,
+              address,
+              rental_date,
+              return_date,
+              height,
+              weight,
+              full_name,
+              email_address,
+              phone_number,
+              status,
             },
             {
               headers: {
@@ -141,7 +181,7 @@ export const useAddressStore = create(
             set({ success: true });
             Toast.show({
               type: "success",
-              text1: "Address updated successfully",
+              text1: "Reservation updated successfully",
             });
 
             return true;
@@ -149,7 +189,51 @@ export const useAddressStore = create(
         } catch (error: any) {
           set({ error: error.response.data.message, success: false });
           console.log(
-            `Error updating address with id - ${updateData.pickup_id}:`,
+            `Error updating reeservation with id - ${updateData.id}:`,
+            error
+          );
+          Toast.show({
+            type: "error",
+            text1: error.response.data.message,
+          });
+
+          return false;
+        } finally {
+          set({ loading: false });
+        }
+      },
+      deleteReservation: async (reservation_id, security) => {
+        set({ loading: true });
+        try {
+          const { email, token } = security;
+
+          const response = await api.post(
+            "/delete-reservations",
+            {
+              reservation_id,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                UserEmail: email,
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.data) {
+            set({ success: true });
+            Toast.show({
+              type: "success",
+              text1: "Reservation deleted successfully",
+            });
+
+            return true;
+          }
+        } catch (error: any) {
+          set({ error: error.response.data.message, success: false });
+          console.log(
+            `Error deleting reservation with id - ${reservation_id}:`,
             error
           );
           Toast.show({
@@ -162,65 +246,21 @@ export const useAddressStore = create(
           set({ loading: false });
         }
       },
-      setDefaultAddress: async (pickup_id) => {
-        // TODO
-      },
-      deleteAddress: async (pickup_id, security) => {
-        set({ loading: true });
-        try {
-          const { token, email } = security;
-
-          const response = await api.post(
-            "/delete-pickup-address",
-            {
-              pickup_id,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                UserEmail: email,
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.data) {
-            set({ success: true });
-            Toast.show({
-              type: "success",
-              text1: "Address deleted successfully",
-            });
-
-            return true;
-          }
-        } catch (error: any) {
-          set({ error: error.response.data.message, success: false });
-          console.log(`Error deleting address with id - ${pickup_id}:`, error);
-          Toast.show({
-            type: "error",
-            text1: "Something went wrong",
-          });
-
-          return false;
-        } finally {
-          set({ loading: false });
-        }
-      },
     }),
     {
-      name: "address-storage",
-      storage: createJSONStorage(() => AsyncStorage),
-      partialize: (state) => {
-        const { addresses } = state;
+      name: "reservations-store",
+      getStorage: () => AsyncStorage,
+      partialize(state) {
+        const { reservations } = state;
+
         return {
           ...initialState,
-          addresses,
+          reservations,
 
-          getAddresses: () => {},
-          addAddress: () => {},
-          updateAddress: () => {},
-          setDefaultAddress: () => {},
-          deleteAddress: () => {},
+          getReservations: () => {},
+          addReservation: () => {},
+          updateReservation: () => {},
+          deleteReservation: () => {},
         };
       },
     }
