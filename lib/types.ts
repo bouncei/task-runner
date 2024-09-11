@@ -55,8 +55,10 @@ export interface Rider {
 
 export interface Address {
   id: string;
+  pickup_id: string;
   title: string;
   pickup_address: string;
+  created_date: string;
 }
 
 export interface Expense {

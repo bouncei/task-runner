@@ -9,6 +9,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 interface AddressStore {
   addresses: Address[] | [];
+  addressToUpdate: Address | null;
+
   loading: boolean;
   success: boolean;
   error: string | null;
@@ -18,6 +20,7 @@ interface AddressStore {
     addData: { title: string; pickup_address: string },
     security: Security
   ) => void;
+  setAddressToUpdate: (address: Address) => void;
   updateAddress: (
     updateData: { pickup_id: string; title: string; pickup_address: string },
     security: Security
@@ -28,6 +31,7 @@ interface AddressStore {
 
 const initialState = {
   addresses: [],
+  addressToUpdate: null,
   loading: false,
   success: false,
   error: null,
@@ -100,6 +104,7 @@ export const useAddressStore = create(
               text1: "Address added successfully",
             });
 
+            get().getAddresses(security);
             router.back();
             return true;
           }
@@ -114,6 +119,9 @@ export const useAddressStore = create(
         } finally {
           set({ loading: false });
         }
+      },
+      setAddressToUpdate: (address) => {
+        set({ addressToUpdate: address });
       },
       updateAddress: async (updateData, security) => {
         set({ loading: true });
@@ -143,6 +151,10 @@ export const useAddressStore = create(
               type: "success",
               text1: "Address updated successfully",
             });
+
+            get().getAddresses(security);
+
+            router.back();
 
             return true;
           }
@@ -218,6 +230,7 @@ export const useAddressStore = create(
 
           getAddresses: () => {},
           addAddress: () => {},
+          setAddressToUpdate: () => {},
           updateAddress: () => {},
           setDefaultAddress: () => {},
           deleteAddress: () => {},

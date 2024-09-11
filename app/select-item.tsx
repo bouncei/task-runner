@@ -52,6 +52,11 @@ const ItemDetailsScreen = () => {
     setItemData(newDelivery?.itemData);
   }, [params, newDelivery]);
 
+  const handleOnChange = (field: keyof typeof itemData, value: string) => {
+    setItemData((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => ({ ...prev, [field]: "" }));
+  };
+
   const validateInputs = () => {
     let isValid = true;
     const newErrors = { ...errors };
@@ -143,9 +148,9 @@ const ItemDetailsScreen = () => {
             style={tw`w-full flex-row`}
           >
             <Input
-              colorScheme={colorScheme}
               placeholder="Select"
               editable={false}
+              error={errors.name}
               value={itemData.name}
               selectTextOnFocus={false}
             />
@@ -167,11 +172,11 @@ const ItemDetailsScreen = () => {
       <View style={tw`gap-2`}>
         <Text style={tw`text-base `}>Quantity</Text>
         <Input
-          colorScheme={colorScheme}
           placeholder="Quantity"
           keyboardType="numeric"
+          error={errors.quantity}
           value={itemData.quantity}
-          onChangeText={(text) => setItemData({ ...itemData, quantity: text })}
+          onChangeText={(text) => handleOnChange("quantity", text)}
         />
         {errors.quantity && (
           <Text style={tw`text-red-500 text-xs`}>{errors.quantity}</Text>
@@ -179,14 +184,12 @@ const ItemDetailsScreen = () => {
       </View>
 
       <View style={tw`gap-2`}>
-        <Text style={tw`text-base `}>Recipient Names</Text>
+        <Text style={tw`text-base `}>Recipient Name</Text>
         <Input
-          colorScheme={colorScheme}
           value={itemData.recipientName}
-          onChangeText={(text) =>
-            setItemData({ ...itemData, recipientName: text })
-          }
-          placeholder="Recipient Names"
+          error={errors.recipientName}
+          onChangeText={(text) => handleOnChange("recipientName", text)}
+          placeholder="Recipient Name"
         />
         {errors.recipientName && (
           <Text style={tw`text-red-500 text-xs`}>{errors.recipientName}</Text>
@@ -196,11 +199,9 @@ const ItemDetailsScreen = () => {
       <View style={tw`gap-2`}>
         <Text style={tw`text-base `}>Load weight</Text>
         <Input
-          colorScheme={colorScheme}
           value={itemData.loadWeight}
-          onChangeText={(text) =>
-            setItemData({ ...itemData, loadWeight: text })
-          }
+          error={errors.loadWeight}
+          onChangeText={(text) => handleOnChange("loadWeight", text)}
           placeholder="Load weight"
         />
         {errors.loadWeight && (
@@ -213,9 +214,7 @@ const ItemDetailsScreen = () => {
 
         <View style={tw`flex-1`}>
           <RNPickerSelect
-            onValueChange={(value) =>
-              setItemData({ ...itemData, breakable: value })
-            }
+            onValueChange={(value) => handleOnChange("breakable", value)}
             items={[
               { label: "Yes", value: "yes" },
               { label: "No", value: "no" },
@@ -224,9 +223,9 @@ const ItemDetailsScreen = () => {
             style={tw`w-full flex-row`}
           >
             <Input
-              colorScheme={colorScheme}
               placeholder="Select"
               value={itemData.breakable}
+              error={errors.breakable}
               editable={false}
               style={tw`capitalize`}
               selectTextOnFocus={false}
@@ -241,11 +240,9 @@ const ItemDetailsScreen = () => {
       <View style={tw`gap-2`}>
         <Text style={tw`text-base `}>Recipient contact number</Text>
         <Input
-          colorScheme={colorScheme}
           value={itemData.recipientPhone}
-          onChangeText={(text) =>
-            setItemData({ ...itemData, recipientPhone: text })
-          }
+          error={errors.recipientPhone}
+          onChangeText={(text) => handleOnChange("recipientPhone", text)}
           placeholder="Recipient contact number"
           keyboardType="phone-pad"
         />
@@ -257,11 +254,9 @@ const ItemDetailsScreen = () => {
       <View style={tw`gap-2`}>
         <Text style={tw`text-base `}>Recipient Email Address</Text>
         <Input
-          colorScheme={colorScheme}
           value={itemData.recipientEmailAddress}
-          onChangeText={(text) =>
-            setItemData({ ...itemData, recipientEmailAddress: text })
-          }
+          error={errors.recipientEmailAddress}
+          onChangeText={(text) => handleOnChange("recipientEmailAddress", text)}
           placeholder="Recipient Email Address"
           keyboardType="email-address"
         />

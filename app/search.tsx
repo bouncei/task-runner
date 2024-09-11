@@ -1,6 +1,7 @@
 import { useRoute } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   TouchableOpacity,
   useColorScheme,
@@ -19,6 +20,9 @@ import {
 import Colors, { primary } from "@/constants/Colors";
 import { router } from "expo-router";
 import { useDeliveryStore } from "@/stores/delivery-store";
+import { useAddressStore } from "@/stores/address-store";
+import { useAuthStore } from "@/stores/auth-store";
+import { Address } from "@/lib/types";
 
 const resentSearches = [
   {
@@ -75,11 +79,19 @@ const resentSearches = [
 
 const SearchScreen = () => {
   const { from, type } = useRoute().params as any;
+
+  const { security } = useAuthStore();
   const { setNewDelivery, newDelivery } = useDeliveryStore();
+  const { addresses, getAddresses, loading } = useAddressStore();
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
   const colorScheme = useColorScheme() ?? "light";
+
+  useEffect(() => {
+    getAddresses(security!);
+  }, []);
 
   let timeoutId: any;
 
@@ -94,10 +106,10 @@ const SearchScreen = () => {
         const response = await fetch(`https://example.com/search?q=${query}`);
         const data = await response.json();
         setSearchResults(data.results);
-        setLoading(false);
+        setSearchLoading(false);
       } catch (error) {
         console.error(error);
-        setLoading(false);
+        setSearchLoading(false);
       }
     }, 1000);
   }, []);
@@ -107,12 +119,12 @@ const SearchScreen = () => {
     locationSearch(query);
   };
 
-  const selectLocation = (location: any) => {
+  const selectLocation = (location: Address) => {
     if (from === "pickup" || from === "delivery") {
       const newLocation = {
         ...location,
-        name: location.name,
-        details: location.details,
+        name: location.title,
+        details: location.pickup_address,
       };
       if (from === "pickup") {
         setNewDelivery({
@@ -141,6 +153,8 @@ const SearchScreen = () => {
     }
   };
 
+  // TODO: IMPLEMENT SEARCH, SELECTION, AND DISPLAY ON DELIVERY LOCATION
+
   return (
     <FrameWithHeader>
       <View
@@ -157,49 +171,81 @@ const SearchScreen = () => {
         />
       </View>
 
-      {loading ? (
+      {searchLoading ? (
         <Text style={tw`w-full text-center font-medium text-base`}>
           Loading...
         </Text>
       ) : (
         <View style={tw`gap-3`}>
-          <View
-            style={tw`flex flex-row items-center justify-between border-b border-b-[#B8B8B8] py-2`}
-          >
-            <Text style={tw`text-xl font-semibold`}>Recent places</Text>
-
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={[{ color: primary }, tw`font-semibold`]}>
-                Clear All
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={tw`flex-col gap-4`}>
-            {resentSearches.map((result, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => {
-                  selectLocation(result);
-                }}
-                style={tw`flex items-center flex-row justify-between py-3`}
+          {/* PICK UP LOCATIONS */}
+          {loading ? (
+            <ActivityIndicator style={tw`py-2`} color={primary} />
+          ) : (
+            <>
+              <View
+                style={tw`flex flex-row items-center justify-between border-b border-b-[#B8B8B8] py-2`}
               >
-                <View style={tw`flex flex-row gap-3`}>
-                  <FontAwesome6 size={25} name="clock" color={primary} />
+                <Text style={tw`text-xl font-semibold`}>Recent places</Text>
 
-                  <View style={tw`gap-1`}>
-                    <Text style={tw`font-medium`}>{result.name}</Text>
-                    <Text style={tw`text-[#B8B8B8]`}>{result.details}</Text>
-                  </View>
-                </View>
+                <TouchableOpacity onPress={() => {}}>
+                  <Text style={[{ color: primary }, tw`font-semibold`]}>
+                    Clear All
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
-                <Text style={tw`font-medium`}>{result.distance}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+              <View style={tw`flex-col gap-4`}>
+                {addresses.map((address, index) => (
+                  <LocationCard
+                    key={index}
+                    title={address.title}
+                    pickup_address={address.pickup_address}
+                    handleSelect={() => selectLocation(address)}
+                  />
+                ))}
+              </View>
+            </>
+          )}
+
+          {/* //TODO: DELIVERY LOCATIONS */}
         </View>
       )}
     </FrameWithHeader>
+  );
+};
+
+interface LocationCardProps {
+  title: string;
+  pickup_address: string;
+  distance?: string;
+
+  handleSelect: () => void;
+}
+
+const LocationCard: React.FC<LocationCardProps> = ({
+  title,
+  pickup_address,
+  distance,
+  handleSelect,
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        handleSelect?.();
+      }}
+      style={tw`flex items-center flex-row justify-between py-3`}
+    >
+      <View style={tw`flex flex-row gap-3`}>
+        <FontAwesome6 size={25} name="clock" color={primary} />
+
+        <View style={tw`gap-1`}>
+          <Text style={tw`font-medium`}>{title}</Text>
+          <Text style={tw`text-[#B8B8B8]`}>{pickup_address}</Text>
+        </View>
+      </View>
+
+      <Text style={tw`font-medium`}>2.7km</Text>
+    </TouchableOpacity>
   );
 };
 
