@@ -28,7 +28,7 @@ const FrameWithHeader: React.FC<Props> = ({
 }) => {
   return (
     <View style={tw`flex-1 pt-[15px]  gap-4  w-full px-4`}>
-      <SafeAreaView>
+      <SafeAreaView style={tw`flex-1`}>
         {showBack && (
           <View style={tw`flex flex-row gap-8 pb-5 items-center`}>
             <Button
@@ -48,6 +48,7 @@ const FrameWithHeader: React.FC<Props> = ({
 
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={tw`flex-1`}
         >
           <ScrollView
             showsVerticalScrollIndicator={false}

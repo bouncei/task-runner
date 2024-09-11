@@ -105,6 +105,8 @@ function RootLayoutNav() {
         <Stack.Screen name="support-faq" options={{ headerShown: false }} />
         <Stack.Screen name="address" options={{ headerShown: false }} />
         <Stack.Screen name="new-address" options={{ headerShown: false }} />
+        <Stack.Screen name="edit-address" options={{ headerShown: false }} />
+
         <Stack.Screen name="settings" options={{ headerShown: false }} />
         <Stack.Screen name="change-password" options={{ headerShown: false }} />
         <Stack.Screen name="privacy-policy" options={{ headerShown: false }} />

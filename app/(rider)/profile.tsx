@@ -11,7 +11,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -22,9 +22,16 @@ import tw from "twrnc";
 
 const ProfileScreen = () => {
   const colorScheme = useColorScheme() ?? "light";
-  const { logout } = useAuthStore();
+  const { logout, loggedInRole, handleLoginRoleState } = useAuthStore();
 
-  const handleImgUpload = () => {};
+  const handleTabSwitch = (field: "sender" | "rider") => {
+    handleLoginRoleState(field);
+    router.push(`/(${field})/profile`);
+  };
+
+  const handleImgUpload = () => {
+    // TODO
+  };
 
   const handleLogout = () => {
     logout();
@@ -58,6 +65,37 @@ const ProfileScreen = () => {
 
       {/* Navigation Options */}
       <View style={tw``}>
+        {/* TABS */}
+        <View style={tw`flex-row bg-gray-200 rounded-full `}>
+          <TouchableOpacity
+            style={tw`flex-1 h-[50px]  justify-center rounded-full ${
+              loggedInRole === "sender" ? `bg-[${primary}]` : ""
+            }`}
+            onPress={() => handleTabSwitch("sender")}
+          >
+            <Text
+              style={tw`text-center text-white ${
+                loggedInRole === "sender" ? "font-bold" : `text-[${primary}]`
+              }`}
+            >
+              Sender
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={tw`flex-1 h-[50px]  justify-center rounded-full ${
+              loggedInRole === "rider" ? `bg-[${primary}]` : ""
+            }`}
+            onPress={() => handleTabSwitch("rider")}
+          >
+            <Text
+              style={tw`text-center text-white ${
+                loggedInRole === "rider" ? "font-bold" : `text-[${primary}]`
+              }`}
+            >
+              Rider
+            </Text>
+          </TouchableOpacity>
+        </View>
         {/* EDIT PROFILE */}
         {/* <TouchableOpacity
           style={tw`flex-row items-center py-4 `}
